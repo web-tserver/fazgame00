@@ -59,30 +59,7 @@
       --glass-bg: rgba(255, 255, 255, 0.7);
     }
 
-    /* Music toggle & autoplay */
-    .autoplay-hint {
-      position: fixed;
-      bottom: 100px;
-      left: 20px;
-      z-index: 9999;
-      background: var(--glass-bg);
-      backdrop-filter: var(--glass-blur);
-      border: var(--glass-border);
-      border-radius: 40px;
-      padding: 10px 18px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      font-size: 13px;
-      font-weight: 500;
-      color: var(--text);
-      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-      pointer-events: none;
-      opacity: 0;
-      visibility: hidden;
-      transition: opacity 0.3s ease, visibility 0.2s;
-    }
-    .autoplay-hint.show { opacity: 1; visibility: visible; pointer-events: auto; }
+    /* Music toggle button (no autoplay hint) */
     .music-toggle {
       position: fixed;
       bottom: 30px;
@@ -104,7 +81,7 @@
       transition: transform 0.2s ease, background 0.2s ease;
     }
 
-    /* ===== COMPACT RGB GAMING LAMP (smaller, header-friendly) ===== */
+    /* ===== COMPACT RGB GAMING LAMP ===== */
     .lamp-container {
       position: fixed;
       top: 70px;
@@ -122,7 +99,6 @@
         transform: scale(0.65);
       }
     }
-    /* On mobile, shift lamp slightly lower to avoid header overlap */
     @media (max-width: 680px) {
       .lamp-container {
         top: 100px !important;
@@ -130,7 +106,6 @@
         transform: scale(0.5);
       }
     }
-    /* Hide the checkbox visually, keep it functional for state */
     #lamp-switch {
       display: none;
     }
@@ -147,7 +122,6 @@
       opacity: 0;
       transition: opacity 0.3s ease;
       pointer-events: none;
-      border-radius: 0;
     }
     .lamp-assembly {
       display: flex;
@@ -246,7 +220,6 @@
       mask-image: repeating-linear-gradient(transparent, transparent 2px, black 2px, black 4px);
       -webkit-mask-image: repeating-linear-gradient(transparent, transparent 2px, black 2px, black 4px);
     }
-    /* Animation for RGB cycling */
     @keyframes rgb-cycle {
       0%   { filter: hue-rotate(0deg); }
       100% { filter: hue-rotate(360deg); }
@@ -256,9 +229,7 @@
       100% { transform: rotate(-3deg); }
     }
     /* Lamp ON state (dark mode = lamp ON) */
-    body:not(.light-mode) .wall-glow {
-      opacity: 1;
-    }
+    body:not(.light-mode) .wall-glow { opacity: 1; }
     body:not(.light-mode) .cord::after {
       background: #00f0ff;
       box-shadow: 0 0 6px #00f0ff;
@@ -271,16 +242,10 @@
       background: #ffffff;
       box-shadow: 0 0 12px #00f0ff, 0 0 24px #00f0ff, 0 0 40px #00f0ff;
     }
-    body:not(.light-mode) .hologram-beam {
-      opacity: 1;
-    }
-    body:not(.light-mode) .rgb-sync {
-      animation: rgb-cycle 5s linear infinite;
-    }
+    body:not(.light-mode) .hologram-beam { opacity: 1; }
+    body:not(.light-mode) .rgb-sync { animation: rgb-cycle 5s linear infinite; }
     /* Lamp OFF state (light mode) */
-    body.light-mode .wall-glow {
-      opacity: 0;
-    }
+    body.light-mode .wall-glow { opacity: 0; }
     body.light-mode .cord::after {
       background: #333;
       box-shadow: none;
@@ -293,14 +258,10 @@
       background: #111;
       box-shadow: none;
     }
-    body.light-mode .hologram-beam {
-      opacity: 0;
-    }
-    body.light-mode .rgb-sync {
-      animation: none;
-    }
+    body.light-mode .hologram-beam { opacity: 0; }
+    body.light-mode .rgb-sync { animation: none; }
 
-    /* ===== HEADER (original) ===== */
+    /* ===== HEADER ===== */
     header {
       position: sticky;
       top: 0;
@@ -565,7 +526,6 @@
 
 <audio id="bg-music" src="music/background.mp3" loop></audio>
 <button class="music-toggle" id="musicToggle">🎵</button>
-<div id="autoplayHint" class="autoplay-hint"><span>🎵</span> Tap anywhere to enable music</div>
 <div class="back-to-top" id="backToTop">↑</div>
 
 <!-- ===== COMPACT RGB GAMING LAMP ===== -->
@@ -775,7 +735,6 @@
   // ===== MUSIC & LAMP (lamp toggles light mode) =====
   const bgMusic = document.getElementById('bg-music');
   const musicToggle = document.getElementById('musicToggle');
-  const autoplayHint = document.getElementById('autoplayHint');
   let musicStarted = false;
   function updateMusicIcon() { musicToggle.innerHTML = bgMusic.muted ? '🔇' : '🎵'; }
   function startMusic() {
@@ -785,15 +744,18 @@
     bgMusic.play().then(() => {
       musicStarted = true;
       updateMusicIcon();
-      if (autoplayHint) autoplayHint.classList.remove('show');
     }).catch(err => console.warn("startMusic error:", err));
   }
   bgMusic.muted = false;
   bgMusic.play().then(() => { musicStarted = true; updateMusicIcon(); }).catch(() => {
-    if (autoplayHint) autoplayHint.classList.add('show');
-    const startOnInteraction = () => { startMusic(); document.removeEventListener('click', startOnInteraction); document.removeEventListener('touchstart', startOnInteraction); };
-    document.addEventListener('click', startOnInteraction);
-    document.addEventListener('touchstart', startOnInteraction);
+    // No hint displayed – user can click the music button to start
+    const enableMusic = () => {
+      startMusic();
+      document.removeEventListener('click', enableMusic);
+      document.removeEventListener('touchstart', enableMusic);
+    };
+    document.addEventListener('click', enableMusic);
+    document.addEventListener('touchstart', enableMusic);
   });
   musicToggle.addEventListener('click', (e) => {
     e.stopPropagation();
@@ -802,7 +764,7 @@
     updateMusicIcon();
   });
 
-  // Lamp theme toggle: sync checkbox with body.light-mode
+  // Lamp theme toggle
   const lampCheckbox = document.getElementById('lamp-switch');
   const lampContainer = document.getElementById('lampContainer');
   if (localStorage.getItem('theme') === 'light') {
@@ -812,9 +774,7 @@
     document.body.classList.remove('light-mode');
     lampCheckbox.checked = true;
   }
-  // When lamp is clicked, toggle theme and checkbox
   lampContainer.addEventListener('click', (e) => {
-    // Prevent toggling twice if the click is on the label inside
     if (e.target.closest('.shade-container')) {
       document.body.classList.toggle('light-mode');
       const isLight = document.body.classList.contains('light-mode');
