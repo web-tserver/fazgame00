@@ -12,39 +12,18 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
   <style>
     /* ===== LIGHTNING BOLT CURSOR ===== */
-    .theme-toggle,
-    .btn-primary,
-    .chip,
-    .hot-card,
-    .floating-image,
-    .social-link,
-    .back-to-top,
-    .trade-btn,
-    .reserve-btn,
-    .swiper-slide,
-    .modal-close,
-    .music-toggle {
+    .theme-toggle, .btn-primary, .chip, .hot-card, .floating-image, .social-link,
+    .back-to-top, .trade-btn, .reserve-btn, .swiper-slide, .faq-question, .modal-close, .music-toggle {
       cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="%23ffd84d" d="M13 2L3 14h7l-1 8 10-12h-7l1-8z"/></svg>') 12 0, pointer;
     }
-
     @media (pointer: coarse) {
-      .theme-toggle,
-      .btn-primary,
-      .chip,
-      .hot-card,
-      .floating-image,
-      .social-link,
-      .back-to-top,
-      .trade-btn,
-      .reserve-btn,
-      .swiper-slide,
-      .modal-close,
-      .music-toggle {
+      .theme-toggle, .btn-primary, .chip, .hot-card, .floating-image, .social-link,
+      .back-to-top, .trade-btn, .reserve-btn, .swiper-slide, .faq-question, .modal-close, .music-toggle {
         cursor: pointer;
       }
     }
 
-    /* ===== LIGHT/DARK MODE VARIABLES ===== */
+    /* ===== LIGHT/DARK MODE VARIABLES (fully fixed) ===== */
     :root {
       --bg: #0b0b0f;
       --bg-secondary: #111216;
@@ -69,40 +48,33 @@
       --glass-blur: blur(20px);
       --glass-border: 1px solid rgba(255,255,255,0.06);
       --glass-bg: rgba(20, 22, 27, 0.3);
-      --placeholder-color: #888;
     }
 
     body.light-mode {
-      --bg: #f0f4f8;
+      --bg: #f8fafc;
       --bg-secondary: #ffffff;
-      --card-bg: rgba(255, 255, 255, 0.8);
+      --card-bg: rgba(255, 255, 255, 0.9);
       --text: #0f172a;
-      --muted: #334155;
+      --muted: #475569;
       --accent: #eab308;
       --accent-dark: #ca8a04;
       --accent-glow: 0 0 20px rgba(234,179,8,0.2);
-      --border-color: rgba(0,0,0,0.08);
-      --card-hover: rgba(255, 255, 255, 0.9);
-      --badge-used-bg: #0f172a;
+      --border-color: rgba(0,0,0,0.1);
+      --card-hover: rgba(255, 255, 255, 1);
+      --badge-used-bg: #1e293b;
       --badge-used-text: #ffffff;
       --badge-new-bg: #eab308;
       --badge-new-text: #0f172a;
       --lamp-color: #eab308;
       --lamp-off-color: #64748b;
-      --header-bg: rgba(255, 255, 255, 0.7);
+      --header-bg: rgba(255, 255, 255, 0.85);
       --card-shadow: 0 8px 32px rgba(0,0,0,0.05);
       --preloader-faz: #0f172a;
-      --glass-blur: blur(20px);
-      --glass-border: 1px solid rgba(0,0,0,0.06);
+      --glass-border: 1px solid rgba(0,0,0,0.08);
       --glass-bg: rgba(255, 255, 255, 0.7);
-      --placeholder-color: #64748b;
     }
 
-    body {
-      transition: background-color 0.5s ease, color 0.3s ease;
-      overflow-x: hidden;
-    }
-
+    body { transition: background-color 0.5s ease, color 0.3s ease; overflow-x: hidden; }
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { 
       font-family: 'Inter', sans-serif; 
@@ -165,14 +137,11 @@
       right: 15px;
       z-index: 1001;
       filter: drop-shadow(0 10px 15px rgba(0,0,0,0.3));
-      transition: filter 0.3s ease;
       transform: scale(0.8);
       transform-origin: top right;
       cursor: pointer;
     }
-    @media (min-width: 768px) {
-      .theme-toggle { top: 80px; right: 30px; transform: scale(1); }
-    }
+    @media (min-width: 768px) { .theme-toggle { top: 80px; right: 30px; transform: scale(1); } }
     .lamp-scene { perspective: 1000px; }
     .lamp-wrap {
       transform-origin: top center;
@@ -322,11 +291,7 @@
       overflow: hidden;
     }
     @media (min-width: 768px) { .banner { min-height: 700px; padding: 0; } }
-    .banner-bg {
-      position: absolute;
-      inset: 0;
-      z-index: 0;
-    }
+    .banner-bg { position: absolute; inset: 0; z-index: 0; }
     .banner-bg .shape {
       position: absolute;
       border-radius: 50%;
@@ -334,34 +299,11 @@
       opacity: 0.4;
     }
     body.light-mode .banner-bg .shape { opacity: 0.15; }
-    .shape-1 {
-      width: 300px;
-      height: 300px;
-      background: #7928ca;
-      top: -50px;
-      left: -50px;
-      animation: float 20s infinite alternate;
-    }
+    .shape-1 { width: 300px; height: 300px; background: #7928ca; top: -50px; left: -50px; animation: float 20s infinite alternate; }
     @media (min-width: 768px) { .shape-1 { width: 400px; height: 400px; top: -100px; left: -100px; } }
-    .shape-2 {
-      width: 350px;
-      height: 350px;
-      background: #ff0080;
-      bottom: -80px;
-      right: -80px;
-      animation: float 25s infinite alternate-reverse;
-    }
+    .shape-2 { width: 350px; height: 350px; background: #ff0080; bottom: -80px; right: -80px; animation: float 25s infinite alternate-reverse; }
     @media (min-width: 768px) { .shape-2 { width: 500px; height: 500px; bottom: -150px; right: -100px; } }
-    .shape-3 {
-      width: 200px;
-      height: 200px;
-      background: var(--accent);
-      top: 50%;
-      left: 30%;
-      filter: blur(80px);
-      opacity: 0.2;
-      animation: pulse 10s infinite;
-    }
+    .shape-3 { width: 200px; height: 200px; background: var(--accent); top: 50%; left: 30%; filter: blur(80px); opacity: 0.2; animation: pulse 10s infinite; }
     @media (min-width: 768px) { .shape-3 { width: 300px; height: 300px; filter: blur(100px); } }
     @keyframes float { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(40px,30px) scale(1.1); } }
     @keyframes pulse { 0%,100% { opacity:0.2; } 50% { opacity:0.3; } }
@@ -403,12 +345,7 @@
     }
     @media (min-width: 768px) { .hero-title { font-size: clamp(48px, 8vw, 72px); margin-bottom: 16px; letter-spacing: -2px; } }
     .hero-title span { color: var(--accent); text-shadow: var(--accent-glow); }
-    .hero-desc {
-      font-size: 16px;
-      color: var(--muted);
-      margin-bottom: 24px;
-      max-width: 500px;
-    }
+    .hero-desc { font-size: 16px; color: var(--muted); margin-bottom: 24px; max-width: 500px; }
     @media (min-width: 768px) { .hero-desc { font-size: 18px; margin-bottom: 32px; } }
     .service-chips {
       display: flex;
@@ -426,7 +363,6 @@
       font-weight: 500;
       color: var(--text);
       padding: 10px 18px;
-      transition: 0.2s;
       display: inline-flex;
       align-items: center;
       justify-content: center;
@@ -442,27 +378,11 @@
       flex-wrap: wrap;
     }
     @media (min-width: 768px) { .hero-stats { gap: 48px; margin: 40px 0; } }
-    .stat-item h3 {
-      font-size: 28px;
-      font-weight: 800;
-      font-family: 'Clash Display', sans-serif;
-      color: var(--text);
-      line-height: 1;
-      margin-bottom: 4px;
-    }
+    .stat-item h3 { font-size: 28px; font-weight: 800; font-family: 'Clash Display', sans-serif; color: var(--text); line-height: 1; margin-bottom: 4px; }
     @media (min-width: 768px) { .stat-item h3 { font-size: 36px; } }
-    .stat-item p {
-      font-size: 12px;
-      color: var(--muted);
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
+    .stat-item p { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
     @media (min-width: 768px) { .stat-item p { font-size: 14px; } }
-    .social-row {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
+    .social-row { display: flex; gap: 12px; flex-wrap: wrap; }
     @media (min-width: 768px) { .social-row { gap: 16px; } }
     .social-link {
       border-radius: 50%;
@@ -477,8 +397,25 @@
       transition: 0.2s;
     }
     .social-link:hover { background: var(--accent); transform: translateY(-4px); }
-    .social-link img { width: 20px; filter: invert(1); opacity: 0.6; transition: 0.2s; }
-    .social-link:hover img { opacity: 1; filter: invert(0); }
+    /* SOCIAL ICONS - FIXED FOR LIGHT MODE */
+    .social-link img {
+      width: 20px;
+      filter: invert(1);
+      opacity: 0.8;
+      transition: 0.2s;
+    }
+    body.light-mode .social-link img {
+      filter: invert(0.2);
+      opacity: 0.9;
+    }
+    .social-link:hover img {
+      filter: invert(0);
+      opacity: 1;
+    }
+    body.light-mode .social-link:hover img {
+      filter: invert(0);
+      opacity: 1;
+    }
     .banner-visual {
       position: relative;
       display: flex;
@@ -538,7 +475,7 @@
     @media (min-width: 768px) { .btn-primary { padding: 14px 0; font-size: 16px; } }
     .btn-primary:hover { background: var(--accent-dark); transform: translateY(-2px); box-shadow: 0 20px 30px -10px rgba(255,216,77,0.5); }
 
-    /* ===== PREORDER CARDS (hot-grid) ===== */
+    /* ===== PREORDER CARDS ===== */
     .hot-grid {
       display: grid;
       gap: 14px;
@@ -593,13 +530,7 @@
       transform: translateZ(20px);
       pointer-events: none;
     }
-    .hot-title {
-      font-weight: 800;
-      font-size: 16px;
-      margin-bottom: 6px;
-      color: #fff;
-      text-shadow: 0 2px 8px rgba(0,0,0,0.8);
-    }
+    .hot-title { font-weight: 800; font-size: 16px; margin-bottom: 6px; color: #fff; text-shadow: 0 2px 8px rgba(0,0,0,0.8); }
     .hot-desc { font-size: 12px; color: rgba(255,255,255,0.9); text-shadow: 0 1px 4px rgba(0,0,0,0.7); font-weight: 600; }
     .hot-price-row .hot-desc { color: var(--accent); font-weight: 800; }
     .badge {
@@ -640,6 +571,7 @@
       border-radius: 24px;
       z-index: 0;
     }
+    body.light-mode .trade-section::before { background: rgba(0,0,0,0.3); }
     .trade-section > * { position: relative; z-index: 1; }
     .trade-title { font-size: 32px; font-weight: 800; margin-bottom: 16px; color: #fff; }
     .trade-desc { font-size: 18px; color: rgba(255,255,255,0.9); margin-bottom: 24px; }
@@ -666,11 +598,7 @@
       margin: 0 auto;
       overflow: hidden;
     }
-    #gallery .swiper {
-      width: 100%;
-      padding: 30px 0 60px;
-      overflow: visible;
-    }
+    #gallery .swiper { width: 100%; padding: 30px 0 60px; overflow: visible; }
     #gallery .swiper-slide {
       width: clamp(180px, 35vw, 280px);
       height: auto;
@@ -716,6 +644,91 @@
       #gallery .swiper-button-next, #gallery .swiper-button-prev { display: none; }
     }
 
+    /* ===== PAYMENT SECTION (FIXED ICONS) ===== */
+    #payment {
+      padding: 40px 16px;
+      max-width: 1200px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .trust-badges {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      margin: 30px 0 20px;
+      flex-wrap: wrap;
+    }
+    .trust-badge {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      color: var(--text);
+    }
+    .trust-badge .icon { font-size: 1.2em; line-height: 1; }
+    .payment-icons {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin-top: 20px;
+    }
+    .payment-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: var(--text);
+      background: var(--glass-bg);
+      backdrop-filter: blur(8px);
+      padding: 8px 16px;
+      border-radius: 40px;
+      border: var(--glass-border);
+    }
+    .payment-item img {
+      height: 24px;
+      width: auto;
+    }
+    /* Fix payment icons for light mode - keep original colors */
+    body.light-mode .payment-item img {
+      filter: none;
+    }
+    body:not(.light-mode) .payment-item img {
+      filter: brightness(0) invert(1);
+    }
+
+    /* ===== FAQ SECTION ===== */
+    #faq {
+      padding: 40px 16px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .faq-item {
+      border-bottom: 1px solid var(--border-color);
+      padding: 16px 0;
+    }
+    .faq-question {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: 700;
+      font-size: 16px;
+      cursor: pointer;
+      padding: 8px 0;
+      color: var(--text);
+    }
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+    .faq-answer.open { max-height: 200px; padding-top: 12px; }
+    .faq-icon { transition: transform 0.3s ease; display: inline-block; }
+    .faq-icon.open { transform: rotate(45deg); }
+
     /* ===== MODAL & LIGHTBOX ===== */
     .modal {
       display: none;
@@ -746,7 +759,6 @@
       max-height: calc(100vh - 32px);
       overflow-y: auto;
     }
-    @media (max-width: 380px) { .modal { padding: 10px; } .modal-content { padding: 16px 12px; max-height: calc(100vh - 20px); } }
     .modal-close {
       position: absolute;
       top: 12px;
@@ -764,8 +776,6 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: background 0.2s;
-      z-index: 10;
     }
     .modal-close:hover { background: #ff3b30; }
     .modal-img {
@@ -831,14 +841,7 @@
       cursor: pointer;
     }
     .modal-lightbox.active { visibility: visible; opacity: 1; }
-    .modal-lightbox-img {
-      max-width: 90vw;
-      max-height: 90vh;
-      object-fit: contain;
-      border-radius: 24px;
-      box-shadow: 0 30px 45px rgba(0,0,0,0.4);
-      border: 3px solid rgba(255,255,255,0.1);
-    }
+    .modal-lightbox-img { max-width: 90vw; max-height: 90vh; object-fit: contain; border-radius: 24px; box-shadow: 0 30px 45px rgba(0,0,0,0.4); border: 3px solid rgba(255,255,255,0.1); }
     .modal-lightbox-close {
       position: absolute;
       top: 24px;
@@ -911,7 +914,6 @@
     #preloader.hide { opacity: 0; pointer-events: none; }
     .preloader-content { text-align: center; }
     .preloader-logo { width: 100px; height: auto; margin-bottom: 15px; }
-    .preloader .logo { font-family: 'Clash Display', sans-serif; font-weight: 700; font-size: 32px; }
     .loader-bar-wrap { width: 200px; height: 4px; background: #222; margin-top: 20px; border-radius: 10px; overflow: hidden; }
     .loader-bar { height: 100%; width: 0%; background: var(--accent); transition: width 0.1s; }
     footer {
@@ -920,6 +922,26 @@
       color: var(--muted);
       font-size: 13px;
       border-top: 1px solid var(--border-color);
+    }
+    section:not(#gallery):not(#payment):not(#faq) {
+      padding: 40px 16px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .section-title {
+      font-size: 28px;
+      font-weight: 800;
+      font-family: 'Clash Display', sans-serif;
+      margin-bottom: 8px;
+      color: var(--text);
+    }
+    .section-subtitle {
+      font-size: 13px;
+      color: var(--accent);
+      margin-bottom: 20px;
+      opacity: 0.9;
+      letter-spacing: 1px;
+      text-transform: uppercase;
     }
     @media (max-width: 380px) {
       .hero-title { font-size: 32px; }
@@ -1009,6 +1031,8 @@
         <span class="chip" data-scroll="preorder-console">Preorder Consoles</span>
         <span class="chip" data-scroll="trade-section">Trade-in</span>
         <span class="chip" data-scroll="gallery">Gallery</span>
+        <span class="chip" data-scroll="payment">Payment</span>
+        <span class="chip" data-scroll="faq">FAQ</span>
       </div>
       <div class="hero-stats">
         <div class="stat-item"><h3 data-target="50">0</h3><p>Custom Builds</p></div>
@@ -1040,25 +1064,25 @@
   <h2 class="section-title">Preorder PC Builds</h2>
   <div class="section-subtitle">Custom Gaming PCs • Built On Demand</div>
   <div class="hot-grid">
-    <div class="hot-card" data-product='{"name":"BLACK SETUP CUSTOM LCD Screen (RTX 3050)","price":"RM2,500","image":"images/pc1000.webp","specs":["Processor: AMD Ryzen 5 5500","Graphics: RTX 3050 6GB","RAM: 16GB DDR4","Storage: 512GB NVMe SSD","PSU: 500W Bronze 80+","Case: Black Custom LCD","Warranty: up to 4 Years"]}'>
+    <div class="hot-card" data-product='{"name":"BLACK SETUP Custom LCD (RTX 3050)","price":"RM2,500","image":"images/pc1000.webp","specs":["Processor: AMD Ryzen 5 5500","Graphics: RTX 3050 6GB","RAM: 16GB DDR4","Storage: 512GB NVMe SSD","PSU: 500W Bronze 80+","Case: Black Custom LCD","Warranty: up to 4 Years"]}'>
       <span class="badge badge-right">PRE-ORDER</span>
       <img src="images/pc1000.webp" alt="BLACK SETUP RTX 3050" loading="lazy" onerror="this.src='https://placehold.co/400x500/222/ffd84d?text=PC+RM2500';">
-      <div class="hot-card-content"><div class="hot-title">BLACK SETUP Custom LCD (RTX 3050)</div><div class="hot-desc">RM2,500</div></div>
+      <div class="hot-card-content"><div class="hot-title">BLACK SETUP Custom LCD</div><div class="hot-desc">RM2,500</div></div>
     </div>
-    <div class="hot-card" data-product='{"name":"WHITE SETUP CUSTOM LCD Screen (RTX 5060)","price":"RM3,500","image":"images/pc2000.webp","specs":["Processor: AMD Ryzen 5 5600","Graphics: RTX 5060 8GB","RAM: 16GB DDR4","Storage: 512GB NVMe SSD","PSU: 600W Bronze 80+","Case: White Custom LCD","Warranty: up to 4 Years"]}'>
+    <div class="hot-card" data-product='{"name":"WHITE SETUP Custom LCD (RTX 5060)","price":"RM3,500","image":"images/pc2000.webp","specs":["Processor: AMD Ryzen 5 5600","Graphics: RTX 5060 8GB","RAM: 16GB DDR4","Storage: 512GB NVMe SSD","PSU: 600W Bronze 80+","Case: White Custom LCD","Warranty: up to 4 Years"]}'>
       <span class="badge badge-right">PRE-ORDER</span>
       <img src="images/pc2000.webp" alt="WHITE SETUP RTX 5060" loading="lazy" onerror="this.src='https://placehold.co/400x500/222/ffd84d?text=PC+RM3500';">
-      <div class="hot-card-content"><div class="hot-title">WHITE SETUP Custom LCD (RTX 5060)</div><div class="hot-desc">RM3,500</div></div>
+      <div class="hot-card-content"><div class="hot-title">WHITE SETUP Custom LCD</div><div class="hot-desc">RM3,500</div></div>
     </div>
-    <div class="hot-card" data-product='{"name":"BLACK SETUP CUSTOM LCD Screen (RTX 5060 Ti)","price":"RM4,000","image":"images/pc3000.webp","specs":["Processor: AMD Ryzen 5 5600","Graphics: RTX 5060 Ti 8GB","RAM: 16GB DDR4","Storage: 512GB NVMe SSD","PSU: 650W Bronze 80+","Case: Black Custom LCD","Warranty: up to 4 Years"]}'>
+    <div class="hot-card" data-product='{"name":"BLACK SETUP Custom LCD (RTX 5060 Ti)","price":"RM4,000","image":"images/pc3000.webp","specs":["Processor: AMD Ryzen 5 5600","Graphics: RTX 5060 Ti 8GB","RAM: 16GB DDR4","Storage: 512GB NVMe SSD","PSU: 650W Bronze 80+","Case: Black Custom LCD","Warranty: up to 4 Years"]}'>
       <span class="badge badge-right">PRE-ORDER</span>
       <img src="images/pc3000.webp" alt="BLACK SETUP RTX 5060 Ti" loading="lazy" onerror="this.src='https://placehold.co/400x500/222/ffd84d?text=PC+RM4000';">
-      <div class="hot-card-content"><div class="hot-title">BLACK SETUP Custom LCD (RTX 5060 Ti)</div><div class="hot-desc">RM4,000</div></div>
+      <div class="hot-card-content"><div class="hot-title">BLACK SETUP Custom LCD</div><div class="hot-desc">RM4,000</div></div>
     </div>
     <div class="hot-card" data-product='{"name":"Coolman Spectra LCD (RTX 5060 Ti / R5 5600X)","price":"RM4,500","image":"images/pc4500.webp","specs":["Processor: AMD Ryzen 5 5600X","Graphics: RTX 5060 Ti 8GB","RAM: 16GB DDR4","Storage: 512GB NVMe SSD","PSU: 650W Bronze 80+","Case: Coolman Spectra","Warranty: up to 4 Years"]}'>
       <span class="badge badge-right">PRE-ORDER</span>
       <img src="images/pc4500.webp" alt="Coolman Spectra RTX 5060 Ti" loading="lazy" onerror="this.src='https://placehold.co/400x500/222/ffd84d?text=PC+RM4500';">
-      <div class="hot-card-content"><div class="hot-title">Coolman Spectra LCD (RTX 5060 Ti / R5 5600X)</div><div class="hot-desc">RM4,500</div></div>
+      <div class="hot-card-content"><div class="hot-title">Coolman Spectra LCD</div><div class="hot-desc">RM4,500</div></div>
     </div>
     <div class="hot-card" data-product='{"name":"Custom PC","price":"Custom Price","image":"images/custompc.webp","specs":["Build your dream rig","Choose CPU, GPU, RAM, Storage","Free assembly & testing","RGB lighting optional","Warranty: up to 4 Years","Personalized cable management"]}'>
       <span class="badge badge-right">PRE-ORDER</span>
@@ -1164,18 +1188,62 @@
       <div class="swiper-slide"><img src="images/g8.webp" alt="Custom PC 8" loading="lazy" onerror="this.src='https://placehold.co/600x400/222/ffd84d?text=Custom+PC+8';"><div class="slide-caption">Custom PC</div></div>
       <div class="swiper-slide"><img src="images/g9.webp" alt="Custom PC 9" loading="lazy" onerror="this.src='https://placehold.co/600x400/222/ffd84d?text=Custom+PC+9';"><div class="slide-caption">Custom PC</div></div>
       <div class="swiper-slide"><img src="images/g10.webp" alt="Custom PC 10" loading="lazy" onerror="this.src='https://placehold.co/600x800/222/ffd84d?text=Custom+PC+10';"><div class="slide-caption">Custom PC</div></div>
-      <div class="swiper-slide"><img src="images/g11.webp" alt="Custom PC 11" loading="lazy" onerror="this.src='https://placehold.co/600x400/222/ffd84d?text=Custom+PC+11';"><div class="slide-caption">Custom PC</div></div>
-      <div class="swiper-slide"><img src="images/g12.webp" alt="Custom PC 12" loading="lazy" onerror="this.src='https://placehold.co/600x400/222/ffd84d?text=Custom+PC+12';"><div class="slide-caption">Custom PC</div></div>
-      <div class="swiper-slide"><img src="images/g13.webp" alt="Custom PC 13" loading="lazy" onerror="this.src='https://placehold.co/600x800/222/ffd84d?text=Custom+PC+13';"><div class="slide-caption">Custom PC</div></div>
-      <div class="swiper-slide"><img src="images/g14.webp" alt="Custom PC 14" loading="lazy" onerror="this.src='https://placehold.co/600x400/222/ffd84d?text=Custom+PC+14';"><div class="slide-caption">Custom PC</div></div>
-      <div class="swiper-slide"><img src="images/g15.webp" alt="Custom PC 15" loading="lazy" onerror="this.src='https://placehold.co/600x800/222/ffd84d?text=Custom+PC+15';"><div class="slide-caption">Custom PC</div></div>
-      <div class="swiper-slide"><img src="images/g16.webp" alt="Custom PC 16" loading="lazy" onerror="this.src='https://placehold.co/600x400/222/ffd84d?text=Custom+PC+16';"><div class="slide-caption">Custom PC</div></div>
-      <div class="swiper-slide"><img src="images/g17.webp" alt="Custom PC 17" loading="lazy" onerror="this.src='https://placehold.co/600x400/222/ffd84d?text=Custom+PC+17';"><div class="slide-caption">Custom PC</div></div>
-      <div class="swiper-slide"><img src="images/g18.webp" alt="Custom PC 18" loading="lazy" onerror="this.src='https://placehold.co/600x800/222/ffd84d?text=Custom+PC+18';"><div class="slide-caption">Custom PC</div></div>
     </div>
     <div class="swiper-button-next"></div>
     <div class="swiper-button-prev"></div>
     <div class="swiper-pagination"></div>
+  </div>
+</section>
+
+<!-- SECTION: Payment (FIXED ICONS) -->
+<section id="payment" class="reveal">
+  <h2 class="section-title" style="text-align:center;">Payment Methods</h2>
+  <div class="trust-badges">
+    <div class="trust-badge"><span class="icon">✓</span> Verified Business</div>
+    <div class="trust-badge"><span class="icon">🔒</span> Secure Checkout</div>
+    <div class="trust-badge"><span class="icon">🔄</span> 7-Day Returns</div>
+  </div>
+  <div class="payment-icons">
+    <div class="payment-item"><img src="https://cdn.simpleicons.org/visa/1a1f71" alt="Visa"><span>Visa</span></div>
+    <div class="payment-item"><img src="https://cdn.simpleicons.org/mastercard/1a1f71" alt="Mastercard"><span>Mastercard</span></div>
+    <div class="payment-item"><img src="https://cdn.simpleicons.org/touchpay/1a1f71" alt="FPX"><span>FPX</span></div>
+    <div class="payment-item"><img src="https://cdn.simpleicons.org/tngdigital/1a1f71" alt="Touch 'n Go"><span>Touch 'n Go</span></div>
+    <div class="payment-item"><img src="https://cdn.simpleicons.org/grab/1a1f71" alt="GrabPay"><span>GrabPay</span></div>
+  </div>
+</section>
+
+<!-- SECTION: FAQ -->
+<section id="faq" class="reveal">
+  <h2 class="section-title">Frequently Asked Questions</h2>
+  <div class="faq-list">
+    <div class="faq-item">
+      <div class="faq-question" tabindex="0" role="button" aria-expanded="false">
+        <span>How long does pre‑order take?</span>
+        <span class="faq-icon">+</span>
+      </div>
+      <div class="faq-answer">Pre‑ordered items typically arrive within 7‑14 working days after payment. You'll receive tracking info via WhatsApp.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question" tabindex="0" role="button" aria-expanded="false">
+        <span>What's the trade‑in process?</span>
+        <span class="faq-icon">+</span>
+      </div>
+      <div class="faq-answer">Send us photos of your item via WhatsApp, we'll quote you within 24h. If accepted, ship it to us or drop by our store.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question" tabindex="0" role="button" aria-expanded="false">
+        <span>Do you offer warranty on used consoles?</span>
+        <span class="faq-icon">+</span>
+      </div>
+      <div class="faq-answer">Yes, all pre-owned consoles come with a 14-day warranty for testing and functional guarantee.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question" tabindex="0" role="button" aria-expanded="false">
+        <span>Can I customize my PC build online?</span>
+        <span class="faq-icon">+</span>
+      </div>
+      <div class="faq-answer">Absolutely! Use our PC Builder tool or WhatsApp us your desired components for a custom quote.</div>
+    </div>
   </div>
 </section>
 
@@ -1319,7 +1387,7 @@
   globalLightbox.onclick = () => { globalLightbox.classList.remove('show'); document.body.style.overflow = 'auto'; };
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && globalLightbox.classList.contains('show')) { globalLightbox.classList.remove('show'); document.body.style.overflow = 'auto'; } });
 
-  // SWIPER
+  // SWIPER GALLERY
   if (document.querySelector('.mySwiper')) {
     const swiper = new Swiper(".mySwiper", {
       effect: "coverflow", grabCursor: true, centeredSlides: true, slidesPerView: "auto",
@@ -1382,6 +1450,31 @@
     if (lampWrap) { lampWrap.style.transition = 'transform 0.1s'; lampWrap.style.transform = 'rotate(0deg) scale(0.98)'; setTimeout(() => { lampWrap.style.transform = ''; lampWrap.style.transition = ''; }, 150); }
     document.body.classList.toggle('light-mode');
     localStorage.setItem('theme', document.body.classList.contains('light-mode') ? 'light' : 'dark');
+  });
+
+  // FAQ TOGGLE
+  document.querySelectorAll('.faq-question').forEach(question => {
+    question.addEventListener('click', function() {
+      const expanded = this.getAttribute('aria-expanded') === 'true' ? false : true;
+      this.setAttribute('aria-expanded', expanded);
+      const answer = this.nextElementSibling;
+      const icon = this.querySelector('.faq-icon');
+      if (expanded) {
+        answer.classList.add('open');
+        icon.classList.add('open');
+        icon.textContent = '−';
+      } else {
+        answer.classList.remove('open');
+        icon.classList.remove('open');
+        icon.textContent = '+';
+      }
+    });
+    question.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        question.click();
+      }
+    });
   });
 </script>
 </body>
