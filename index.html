@@ -12,12 +12,12 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
   <style>
     /* ===== LIGHTNING BOLT CURSOR ===== */
-    .theme-toggle, .btn-primary, .chip, .hot-card, .floating-image, .social-link,
+    .btn-primary, .chip, .hot-card, .floating-image, .social-link,
     .back-to-top, .trade-btn, .reserve-btn, .swiper-slide, .faq-question, .modal-close, .music-toggle {
       cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="%23ffd84d" d="M13 2L3 14h7l-1 8 10-12h-7l1-8z"/></svg>') 12 0, pointer;
     }
     @media (pointer: coarse) {
-      .theme-toggle, .btn-primary, .chip, .hot-card, .floating-image, .social-link,
+      .btn-primary, .chip, .hot-card, .floating-image, .social-link,
       .back-to-top, .trade-btn, .reserve-btn, .swiper-slide, .faq-question, .modal-close, .music-toggle {
         cursor: pointer;
       }
@@ -40,15 +40,12 @@
       --badge-new-bg: rgba(255,216,77,0.45);
       --badge-new-text: #000;
       --transition: 0.4s cubic-bezier(0.2, 0.9, 0.3, 1);
-      --lamp-color: #ffd84d;
-      --lamp-off-color: #94a3b8;
       --header-bg: rgba(11, 11, 15, 0.5);
       --card-shadow: 0 8px 32px rgba(0,0,0,0.15);
       --glass-blur: blur(20px);
       --glass-border: 1px solid rgba(255,255,255,0.06);
       --glass-bg: rgba(20, 22, 27, 0.3);
     }
-
     body.light-mode {
       --bg: #f8fafc;
       --bg-secondary: #ffffff;
@@ -64,8 +61,6 @@
       --badge-used-text: #ffffff;
       --badge-new-bg: #eab308;
       --badge-new-text: #0f172a;
-      --lamp-color: #eab308;
-      --lamp-off-color: #64748b;
       --header-bg: rgba(255, 255, 255, 0.85);
       --card-shadow: 0 8px 32px rgba(0,0,0,0.05);
       --glass-border: 1px solid rgba(0,0,0,0.08);
@@ -128,81 +123,176 @@
       transition: transform 0.2s ease, background 0.2s ease;
     }
 
-    /* ===== PREMIUM 3D SWING LAMP ===== */
-    .theme-toggle {
+    /* ===== COMPACT RGB GAMING LAMP ===== */
+    .lamp-container {
       position: fixed;
       top: 70px;
       right: 15px;
       z-index: 1001;
-      filter: drop-shadow(0 10px 15px rgba(0,0,0,0.3));
-      transform: scale(0.8);
-      transform-origin: top right;
       cursor: pointer;
+      transform: scale(0.55);
+      transform-origin: top right;
+      transition: filter 0.3s ease;
     }
-    @media (min-width: 768px) { .theme-toggle { top: 80px; right: 30px; transform: scale(1); } }
-    .lamp-scene { perspective: 1000px; }
-    .lamp-wrap {
-      transform-origin: top center;
-      animation: swing 4s ease-in-out infinite;
+    @media (min-width: 768px) {
+      .lamp-container {
+        top: 80px;
+        right: 25px;
+        transform: scale(0.65);
+      }
+    }
+    @media (max-width: 680px) {
+      .lamp-container {
+        top: 100px !important;
+        right: 15px !important;
+        transform: scale(0.5);
+      }
+    }
+    #lamp-switch {
+      display: none;
+    }
+    .room {
+      position: relative;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+    }
+    .wall-glow {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 50% 40%, rgba(0, 240, 255, 0.15) 0%, transparent 60%);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
+    }
+    .lamp-assembly {
       display: flex;
       flex-direction: column;
       align-items: center;
+      transform-origin: top center;
+      animation: swing 5s ease-in-out infinite alternate;
+      filter: drop-shadow(0px 30px 20px rgba(0,0,0,0.6));
     }
-    .wire { width: 2px; height: 50px; background: linear-gradient(#9ca3af, #4b5563); margin-bottom: 2px; }
-    @media (min-width: 768px) { .wire { height: 60px; } }
-    .lamp-head {
-      width: 60px;
-      height: 40px;
-      background: linear-gradient(#6b7280, #1f2937);
-      border-radius: 30px 30px 8px 8px;
+    .base {
+      width: 40px;
+      height: 16px;
+      background: #121318;
+      clip-path: polygon(0 0, 100% 0, 80% 100%, 20% 100%);
+      border-bottom: 1px solid #23252d;
+    }
+    .cord {
+      width: 8px;
+      height: 120px;
+      background: linear-gradient(90deg, #111 0%, #222 50%, #000 100%);
+      position: relative;
+    }
+    .cord::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 3px;
+      width: 3px; height: 100%;
+      background: #333;
+      transition: background 0.3s ease;
+    }
+    .shade-container {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      cursor: pointer;
+      margin-top: -3px;
+    }
+    .shade-top {
+      width: 28px;
+      height: 20px;
+      background: #23252d;
+      clip-path: polygon(20% 0, 80% 0, 100% 100%, 0 100%);
+    }
+    .shade-body {
+      width: 130px;
+      height: 52px;
+      background: linear-gradient(135deg, #121318 0%, #0f111a 100%);
+      clip-path: polygon(30% 0%, 70% 0%, 100% 100%, 0% 100%);
+      position: relative;
       display: flex;
       justify-content: center;
       align-items: flex-end;
-      margin-bottom: 5px;
+      border-bottom: 2px solid #111;
     }
-    @media (min-width: 768px) { .lamp-head { width: 80px; height: 50px; } }
-    .bulb {
-      width: 18px;
-      height: 18px;
-      background: radial-gradient(circle at 30% 30%, var(--lamp-color), color-mix(in srgb, var(--lamp-color) 50%, #333));
-      border-radius: 50%;
-      box-shadow: 0 0 20px var(--lamp-color);
-      margin-bottom: 6px;
-      transition: background 0.3s, box-shadow 0.3s;
+    .shade-body::before, .shade-body::after {
+      content: '';
+      position: absolute;
+      top: 10%;
+      width: 20px;
+      height: 80%;
+      background: #23252d;
+      z-index: -1;
     }
-    @media (min-width: 768px) { .bulb { width: 24px; height: 24px; box-shadow: 0 0 25px var(--lamp-color); } }
-    body.light-mode .bulb {
-      background: radial-gradient(circle at 30% 30%, var(--lamp-off-color), color-mix(in srgb, var(--lamp-off-color) 40%, #444));
-      box-shadow: 0 0 15px var(--lamp-off-color);
+    .shade-body::before { left: 10px; clip-path: polygon(100% 0, 0 100%, 100% 100%); }
+    .shade-body::after { right: 10px; clip-path: polygon(0 0, 100% 100%, 0 100%); }
+    .rgb-ring {
+      position: absolute;
+      bottom: -3px;
+      width: 85px;
+      height: 5px;
+      background: #222;
+      border-radius: 8px;
+      transition: all 0.3s ease;
     }
-    .beam {
-      width: 120px;
-      height: 100px;
-      background: radial-gradient(ellipse at top, var(--lamp-color) 0%, transparent 70%);
-      clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
-      filter: blur(6px);
-      opacity: 0.5;
-      margin-top: -15px;
+    .led-core {
+      width: 50px;
+      height: 10px;
+      background: #111;
+      clip-path: polygon(10% 0, 90% 0, 100% 100%, 0 100%);
+      position: absolute;
+      bottom: -10px;
+      transition: all 0.3s ease;
     }
-    @media (min-width: 768px) { .beam { width: 180px; height: 140px; filter: blur(8px); margin-top: -20px; } }
-    body.light-mode .beam {
-      background: radial-gradient(ellipse at top, var(--lamp-off-color) 0%, transparent 70%);
-      opacity: 0.3;
+    .hologram-beam {
+      position: absolute;
+      top: 65px;
+      width: 350px;
+      height: 500px;
+      background: linear-gradient(to bottom, rgba(0, 240, 255, 0.3) 0%, rgba(0, 240, 255, 0) 100%);
+      clip-path: polygon(38% 0, 62% 0, 100% 100%, 0 100%);
+      opacity: 0;
+      pointer-events: none;
+      transform-origin: top center;
+      transition: opacity 0.3s ease;
+      mask-image: repeating-linear-gradient(transparent, transparent 2px, black 2px, black 4px);
+      -webkit-mask-image: repeating-linear-gradient(transparent, transparent 2px, black 2px, black 4px);
     }
-    .floor {
-      width: 150px;
-      height: 70px;
-      background: radial-gradient(circle, var(--lamp-color) 0%, transparent 70%);
-      filter: blur(15px);
-      opacity: 0.3;
-      margin-top: -40px;
+    @keyframes rgb-cycle {
+      0% { filter: hue-rotate(0deg); }
+      100% { filter: hue-rotate(360deg); }
     }
-    @media (min-width: 768px) { .floor { width: 200px; height: 100px; filter: blur(20px); margin-top: -60px; } }
-    body.light-mode .floor {
-      background: radial-gradient(circle, var(--lamp-off-color) 0%, transparent 70%);
-      opacity: 0.15;
+    @keyframes swing {
+      0% { transform: rotate(3deg); }
+      100% { transform: rotate(-3deg); }
     }
-    @keyframes swing { 0% { transform: rotate(4deg); } 50% { transform: rotate(-4deg); } 100% { transform: rotate(4deg); } }
+    /* Lamp ON (dark mode) */
+    body:not(.light-mode) .wall-glow { opacity: 1; }
+    body:not(.light-mode) .cord::after {
+      background: #00f0ff;
+      box-shadow: 0 0 6px #00f0ff;
+    }
+    body:not(.light-mode) .rgb-ring {
+      background: #00f0ff;
+      box-shadow: 0 0 10px #00f0ff, 0 0 20px #00f0ff;
+    }
+    body:not(.light-mode) .led-core {
+      background: #ffffff;
+      box-shadow: 0 0 12px #00f0ff, 0 0 24px #00f0ff, 0 0 40px #00f0ff;
+    }
+    body:not(.light-mode) .hologram-beam { opacity: 1; }
+    body:not(.light-mode) .rgb-sync { animation: rgb-cycle 5s linear infinite; }
+    /* Lamp OFF (light mode) */
+    body.light-mode .wall-glow { opacity: 0; }
+    body.light-mode .cord::after { background: #333; box-shadow: none; }
+    body.light-mode .rgb-ring { background: #222; box-shadow: none; }
+    body.light-mode .led-core { background: #111; box-shadow: none; }
+    body.light-mode .hologram-beam { opacity: 0; }
+    body.light-mode .rgb-sync { animation: none; }
 
     /* ===== HEADER ===== */
     header {
@@ -253,11 +343,7 @@
       color: var(--text);
       text-decoration: none;
     }
-    .nav-link:hover {
-      background: var(--accent);
-      color: #000;
-      transform: translateY(-2px);
-    }
+    .nav-link:hover { background: var(--accent); color: #000; transform: translateY(-2px); }
     .header-logos {
       display: flex;
       gap: 12px;
@@ -268,25 +354,16 @@
       width: 20px;
       transition: var(--transition);
     }
-    body:not(.light-mode) .header-logos img {
-      filter: invert(1);
-      opacity: 0.7;
-    }
-    body.light-mode .header-logos img {
-      filter: none;
-      opacity: 0.8;
-    }
-    .header-logos img:hover {
-      opacity: 1;
-      transform: translateY(-2px);
-    }
+    body:not(.light-mode) .header-logos img { filter: invert(1); opacity: 0.7; }
+    body.light-mode .header-logos img { filter: none; opacity: 0.8; }
+    .header-logos img:hover { opacity: 1; transform: translateY(-2px); }
     @media (max-width: 680px) {
       .header-inner { flex-direction: column; align-items: stretch; }
       .header-nav { justify-content: center; order: 2; }
       .header-logos { order: 3; justify-content: center; }
     }
 
-    /* ===== BANNER ===== */
+    /* ===== BANNER, CARDS, ETC. ===== */
     .banner {
       position: relative;
       min-height: auto;
@@ -317,7 +394,7 @@
       content: "";
       position: absolute;
       inset: 0;
-      background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJmIj48ZmVUdXJidWxlbmNlIHR5cGU9ImZyYWN0YWxOb2lzZSIgYmFzZUZyZXF1ZW5jeT0iLjc0IiBudW1PY3RhdmVzPSIzIiAvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNmKSIgb3BhY2l0eT0iMC4wNCIgLz48L3N2Zz4=');
+      background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJmIj48ZmVUdXJidWxlbmNlIHR5cGU9ImZyYWN0YWxOb2lzZSIgYmFzZUZyZXF1ZW5jeT0iLjc0IiBudW1PY3RhdmVzPSIzIiAvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNmKSIgb3BhY2l0eT0iMC4wNCIgLz48/N2ZnPg==');
       opacity: 0.15;
       pointer-events: none;
       z-index: 1;
@@ -409,18 +486,9 @@
       opacity: 0.8;
       transition: 0.2s;
     }
-    body.light-mode .social-link img {
-      filter: invert(0.2);
-      opacity: 0.9;
-    }
-    .social-link:hover img {
-      filter: invert(0);
-      opacity: 1;
-    }
-    body.light-mode .social-link:hover img {
-      filter: invert(0);
-      opacity: 1;
-    }
+    body.light-mode .social-link img { filter: invert(0.2); opacity: 0.9; }
+    .social-link:hover img { filter: invert(0); opacity: 1; }
+    body.light-mode .social-link:hover img { filter: invert(0); opacity: 1; }
     .banner-visual {
       position: relative;
       display: flex;
@@ -649,7 +717,7 @@
       #gallery .swiper-button-next, #gallery .swiper-button-prev { display: none; }
     }
 
-    /* ===== PAYMENT SECTION (NO ICONS, TEXT ONLY) ===== */
+    /* ===== PAYMENT SECTION ===== */
     #payment {
       padding: 40px 16px;
       max-width: 1200px;
@@ -953,16 +1021,27 @@
   <img id="modalLightboxImg" class="modal-lightbox-img" alt="Zoomed view">
 </div>
 
-<div class="theme-toggle" id="themeToggle">
-  <div class="lamp-scene">
-    <div class="lamp-wrap" id="lampWrap">
-      <div class="wire"></div>
-      <div class="lamp-head"><div class="bulb"></div></div>
-      <div class="beam"></div>
-      <div class="floor"></div>
+<input type="checkbox" id="lamp-switch">
+<div class="lamp-container" id="lampContainer">
+  <div class="room">
+    <div class="rgb-sync" style="position: relative; width: 100%; height: 100%;">
+      <div class="wall-glow"></div>
+      <div class="lamp-assembly">
+        <div class="base"></div>
+        <div class="cord"></div>
+        <label for="lamp-switch" class="shade-container">
+          <div class="shade-top"></div>
+          <div class="shade-body">
+            <div class="rgb-ring"></div>
+          </div>
+          <div class="led-core"></div>
+          <div class="hologram-beam"></div>
+        </label>
+      </div>
     </div>
   </div>
 </div>
+
 <div class="back-to-top" id="backToTop">↑</div>
 
 <header>
@@ -1028,7 +1107,6 @@
   <button id="cta-whatsapp" class="btn-primary">Chat on WhatsApp</button>
 </div>
 
-<!-- SECTION: Preorder PC Builds -->
 <section id="hot" class="reveal">
   <h2 class="section-title">Preorder PC Builds</h2>
   <div class="section-subtitle">Custom Gaming PCs • Built On Demand</div>
@@ -1061,7 +1139,6 @@
   </div>
 </section>
 
-<!-- SECTION: Preorder Consoles -->
 <section id="preorder-console" class="reveal">
   <h2 class="section-title">Preorder Consoles</h2>
   <div class="section-subtitle">Used Units • Reserve Before Stock Arrival</div>
@@ -1134,7 +1211,6 @@
   </div>
 </section>
 
-<!-- SECTION: Gallery (moved up) -->
 <section id="gallery" class="reveal">
   <h2 class="section-title">Gallery</h2>
   <div class="section-subtitle">Immersive 3D • Custom PC builds and gaming setups</div>
@@ -1157,49 +1233,34 @@
   </div>
 </section>
 
-<!-- SECTION: Trade In (moved below Gallery) -->
 <section id="trade-section" class="trade-section reveal">
   <h2 class="trade-title">Game & Console Trade‑In</h2>
   <p class="trade-desc">Got old games or consoles? Trade them in!</p>
   <button class="trade-btn" id="tradeBtn">Inquire About Trade‑In</button>
 </section>
 
-<!-- SECTION: FAQ (moved below Trade In) -->
 <section id="faq" class="reveal">
   <h2 class="section-title">Frequently Asked Questions</h2>
   <div class="faq-list">
     <div class="faq-item">
-      <div class="faq-question" tabindex="0" role="button" aria-expanded="false">
-        <span>How long does pre‑order take?</span>
-        <span class="faq-icon">+</span>
-      </div>
+      <div class="faq-question" tabindex="0" role="button" aria-expanded="false"><span>How long does pre‑order take?</span><span class="faq-icon">+</span></div>
       <div class="faq-answer">Pre‑ordered items typically arrive within 7‑14 working days after payment. You'll receive tracking info via WhatsApp.</div>
     </div>
     <div class="faq-item">
-      <div class="faq-question" tabindex="0" role="button" aria-expanded="false">
-        <span>What's the trade‑in process?</span>
-        <span class="faq-icon">+</span>
-      </div>
+      <div class="faq-question" tabindex="0" role="button" aria-expanded="false"><span>What's the trade‑in process?</span><span class="faq-icon">+</span></div>
       <div class="faq-answer">Send us photos of your item via WhatsApp, we'll quote you within 24h. If accepted, ship it to us or drop by our store.</div>
     </div>
     <div class="faq-item">
-      <div class="faq-question" tabindex="0" role="button" aria-expanded="false">
-        <span>Do you offer warranty on used consoles?</span>
-        <span class="faq-icon">+</span>
-      </div>
+      <div class="faq-question" tabindex="0" role="button" aria-expanded="false"><span>Do you offer warranty on used consoles?</span><span class="faq-icon">+</span></div>
       <div class="faq-answer">Yes, all pre-owned consoles come with a 14-day warranty for testing and functional guarantee.</div>
     </div>
     <div class="faq-item">
-      <div class="faq-question" tabindex="0" role="button" aria-expanded="false">
-        <span>Can I customize my PC build online?</span>
-        <span class="faq-icon">+</span>
-      </div>
+      <div class="faq-question" tabindex="0" role="button" aria-expanded="false"><span>Can I customize my PC build online?</span><span class="faq-icon">+</span></div>
       <div class="faq-answer">Absolutely! Use our PC Builder tool or WhatsApp us your desired components for a custom quote.</div>
     </div>
   </div>
 </section>
 
-<!-- SECTION: Payment (moved below FAQ, text only) -->
 <section id="payment" class="reveal">
   <h2 class="section-title" style="text-align:center;">Payment Methods</h2>
   <div class="trust-badges">
@@ -1225,11 +1286,7 @@
   const musicToggle = document.getElementById('musicToggle');
   const autoplayHint = document.getElementById('autoplayHint');
   let musicStarted = false;
-  function updateMusicIcon() {
-    musicToggle.innerHTML = bgMusic.muted ? '🔇' : '🎵';
-    if (bgMusic.muted) musicToggle.classList.add('muted');
-    else musicToggle.classList.remove('muted');
-  }
+  function updateMusicIcon() { musicToggle.innerHTML = bgMusic.muted ? '🔇' : '🎵'; }
   function startMusic() {
     if (musicStarted) return;
     bgMusic.muted = false;
@@ -1241,10 +1298,7 @@
     }).catch(err => console.warn("startMusic error:", err));
   }
   bgMusic.muted = false;
-  bgMusic.play().then(() => {
-    musicStarted = true;
-    updateMusicIcon();
-  }).catch(() => {
+  bgMusic.play().then(() => { musicStarted = true; updateMusicIcon(); }).catch(() => {
     if (autoplayHint) autoplayHint.classList.add('show');
     const startOnInteraction = () => { startMusic(); document.removeEventListener('click', startOnInteraction); document.removeEventListener('touchstart', startOnInteraction); };
     document.addEventListener('click', startOnInteraction);
@@ -1274,7 +1328,7 @@
     window.open(`https://api.whatsapp.com/send?phone=60163691936&text=${encodeURIComponent("Hi FAZGAME 👋 I'm interested in trading in my games/consoles.")}`, '_blank');
   });
 
-  // COUNTERS (no preloader, so start immediately)
+  // COUNTERS
   function startCounters() {
     document.querySelectorAll(".stat-item h3").forEach(counter => {
       const target = parseInt(counter.dataset.target);
@@ -1393,22 +1447,29 @@
     };
   });
 
-  // WHATSAPP BUTTONS
+  // WHATSAPP BUTTON
   document.getElementById("cta-whatsapp").addEventListener("click", function(e){
     e.preventDefault();
     window.open("https://api.whatsapp.com/send?phone=60163691936&text=" + encodeURIComponent("Hi FAZGAME 👋 I would like to inquire about your products."), '_blank');
   });
 
-  // THEME TOGGLE (LAMP)
-  const themeToggle = document.getElementById('themeToggle');
-  const lampWrap = document.getElementById('lampWrap');
-  const savedTheme = localStorage.getItem('theme');
-  if (savedTheme === 'light') document.body.classList.add('light-mode');
-  else if (!savedTheme && window.matchMedia('(prefers-color-scheme: light)').matches) document.body.classList.add('light-mode');
-  themeToggle.addEventListener('click', () => {
-    if (lampWrap) { lampWrap.style.transition = 'transform 0.1s'; lampWrap.style.transform = 'rotate(0deg) scale(0.98)'; setTimeout(() => { lampWrap.style.transform = ''; lampWrap.style.transition = ''; }, 150); }
-    document.body.classList.toggle('light-mode');
-    localStorage.setItem('theme', document.body.classList.contains('light-mode') ? 'light' : 'dark');
+  // NEW LAMP THEME TOGGLE
+  const lampCheckbox = document.getElementById('lamp-switch');
+  const lampContainer = document.getElementById('lampContainer');
+  if (localStorage.getItem('theme') === 'light') {
+    document.body.classList.add('light-mode');
+    lampCheckbox.checked = false;
+  } else {
+    document.body.classList.remove('light-mode');
+    lampCheckbox.checked = true;
+  }
+  lampContainer.addEventListener('click', (e) => {
+    if (e.target.closest('.shade-container')) {
+      document.body.classList.toggle('light-mode');
+      const isLight = document.body.classList.contains('light-mode');
+      lampCheckbox.checked = !isLight;
+      localStorage.setItem('theme', isLight ? 'light' : 'dark');
+    }
   });
 
   // FAQ TOGGLE
