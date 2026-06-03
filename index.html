@@ -649,7 +649,7 @@
       #gallery .swiper-button-next, #gallery .swiper-button-prev { display: none; }
     }
 
-    /* ===== PAYMENT SECTION ===== */
+    /* ===== PAYMENT SECTION (NO ICONS, TEXT ONLY) ===== */
     #payment {
       padding: 40px 16px;
       max-width: 1200px;
@@ -674,31 +674,19 @@
     .payment-icons {
       display: flex;
       justify-content: center;
-      gap: 20px;
+      gap: 16px;
       flex-wrap: wrap;
       margin-top: 20px;
     }
     .payment-item {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 13px;
-      color: var(--text);
       background: var(--glass-bg);
       backdrop-filter: blur(8px);
-      padding: 8px 16px;
+      padding: 8px 20px;
       border-radius: 40px;
       border: var(--glass-border);
-    }
-    .payment-item img {
-      height: 24px;
-      width: auto;
-    }
-    body.light-mode .payment-item img {
-      filter: none;
-    }
-    body:not(.light-mode) .payment-item img {
-      filter: brightness(0) invert(1);
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text);
     }
 
     /* ===== FAQ SECTION ===== */
@@ -1146,14 +1134,7 @@
   </div>
 </section>
 
-<!-- SECTION: Trade In -->
-<section id="trade-section" class="trade-section reveal">
-  <h2 class="trade-title">Game & Console Trade‑In</h2>
-  <p class="trade-desc">Got old games or consoles? Trade them in!</p>
-  <button class="trade-btn" id="tradeBtn">Inquire About Trade‑In</button>
-</section>
-
-<!-- SECTION: Gallery -->
+<!-- SECTION: Gallery (moved up) -->
 <section id="gallery" class="reveal">
   <h2 class="section-title">Gallery</h2>
   <div class="section-subtitle">Immersive 3D • Custom PC builds and gaming setups</div>
@@ -1176,24 +1157,14 @@
   </div>
 </section>
 
-<!-- SECTION: Payment -->
-<section id="payment" class="reveal">
-  <h2 class="section-title" style="text-align:center;">Payment Methods</h2>
-  <div class="trust-badges">
-    <div class="trust-badge"><span class="icon">✓</span> Verified Business</div>
-    <div class="trust-badge"><span class="icon">🔒</span> Secure Checkout</div>
-    <div class="trust-badge"><span class="icon">🔄</span> 7-Day Returns</div>
-  </div>
-  <div class="payment-icons">
-    <div class="payment-item"><img src="https://cdn.simpleicons.org/visa/1a1f71" alt="Visa"><span>Visa</span></div>
-    <div class="payment-item"><img src="https://cdn.simpleicons.org/mastercard/1a1f71" alt="Mastercard"><span>Mastercard</span></div>
-    <div class="payment-item"><img src="https://cdn.simpleicons.org/touchpay/1a1f71" alt="FPX"><span>FPX</span></div>
-    <div class="payment-item"><img src="https://cdn.simpleicons.org/tngdigital/1a1f71" alt="Touch 'n Go"><span>Touch 'n Go</span></div>
-    <div class="payment-item"><img src="https://cdn.simpleicons.org/grab/1a1f71" alt="GrabPay"><span>GrabPay</span></div>
-  </div>
+<!-- SECTION: Trade In (moved below Gallery) -->
+<section id="trade-section" class="trade-section reveal">
+  <h2 class="trade-title">Game & Console Trade‑In</h2>
+  <p class="trade-desc">Got old games or consoles? Trade them in!</p>
+  <button class="trade-btn" id="tradeBtn">Inquire About Trade‑In</button>
 </section>
 
-<!-- SECTION: FAQ -->
+<!-- SECTION: FAQ (moved below Trade In) -->
 <section id="faq" class="reveal">
   <h2 class="section-title">Frequently Asked Questions</h2>
   <div class="faq-list">
@@ -1225,6 +1196,23 @@
       </div>
       <div class="faq-answer">Absolutely! Use our PC Builder tool or WhatsApp us your desired components for a custom quote.</div>
     </div>
+  </div>
+</section>
+
+<!-- SECTION: Payment (moved below FAQ, text only) -->
+<section id="payment" class="reveal">
+  <h2 class="section-title" style="text-align:center;">Payment Methods</h2>
+  <div class="trust-badges">
+    <div class="trust-badge"><span class="icon">✓</span> Verified Business</div>
+    <div class="trust-badge"><span class="icon">🔒</span> Secure Checkout</div>
+    <div class="trust-badge"><span class="icon">🔄</span> 7-Day Returns</div>
+  </div>
+  <div class="payment-icons">
+    <div class="payment-item">Visa</div>
+    <div class="payment-item">Mastercard</div>
+    <div class="payment-item">FPX</div>
+    <div class="payment-item">Touch 'n Go</div>
+    <div class="payment-item">GrabPay</div>
   </div>
 </section>
 
