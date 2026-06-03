@@ -23,7 +23,7 @@
       }
     }
 
-    /* ===== LIGHT/DARK MODE VARIABLES (fully fixed) ===== */
+    /* ===== LIGHT/DARK MODE VARIABLES ===== */
     :root {
       --bg: #0b0b0f;
       --bg-secondary: #111216;
@@ -44,7 +44,6 @@
       --lamp-off-color: #94a3b8;
       --header-bg: rgba(11, 11, 15, 0.5);
       --card-shadow: 0 8px 32px rgba(0,0,0,0.15);
-      --preloader-faz: #ffffff;
       --glass-blur: blur(20px);
       --glass-border: 1px solid rgba(255,255,255,0.06);
       --glass-bg: rgba(20, 22, 27, 0.3);
@@ -69,7 +68,6 @@
       --lamp-off-color: #64748b;
       --header-bg: rgba(255, 255, 255, 0.85);
       --card-shadow: 0 8px 32px rgba(0,0,0,0.05);
-      --preloader-faz: #0f172a;
       --glass-border: 1px solid rgba(0,0,0,0.08);
       --glass-bg: rgba(255, 255, 255, 0.7);
     }
@@ -268,12 +266,20 @@
     @media (min-width: 768px) { .header-logos { gap: 20px; } }
     .header-logos img {
       width: 20px;
-      filter: invert(1);
-      opacity: 0.6;
       transition: var(--transition);
     }
-    @media (min-width: 768px) { .header-logos img { width: 24px; } }
-    .header-logos img:hover { opacity: 1; transform: translateY(-2px); }
+    body:not(.light-mode) .header-logos img {
+      filter: invert(1);
+      opacity: 0.7;
+    }
+    body.light-mode .header-logos img {
+      filter: none;
+      opacity: 0.8;
+    }
+    .header-logos img:hover {
+      opacity: 1;
+      transform: translateY(-2px);
+    }
     @media (max-width: 680px) {
       .header-inner { flex-direction: column; align-items: stretch; }
       .header-nav { justify-content: center; order: 2; }
@@ -397,7 +403,6 @@
       transition: 0.2s;
     }
     .social-link:hover { background: var(--accent); transform: translateY(-4px); }
-    /* SOCIAL ICONS - FIXED FOR LIGHT MODE */
     .social-link img {
       width: 20px;
       filter: invert(1);
@@ -644,7 +649,7 @@
       #gallery .swiper-button-next, #gallery .swiper-button-prev { display: none; }
     }
 
-    /* ===== PAYMENT SECTION (FIXED ICONS) ===== */
+    /* ===== PAYMENT SECTION ===== */
     #payment {
       padding: 40px 16px;
       max-width: 1200px;
@@ -689,7 +694,6 @@
       height: 24px;
       width: auto;
     }
-    /* Fix payment icons for light mode - keep original colors */
     body.light-mode .payment-item img {
       filter: none;
     }
@@ -901,21 +905,6 @@
       transition: opacity 0.8s ease, transform 0.8s ease;
     }
     .reveal.active { opacity: 1; transform: translateY(0); }
-    #preloader {
-      position: fixed;
-      inset: 0;
-      background: var(--bg);
-      z-index: 10000;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: opacity 0.6s ease;
-    }
-    #preloader.hide { opacity: 0; pointer-events: none; }
-    .preloader-content { text-align: center; }
-    .preloader-logo { width: 100px; height: auto; margin-bottom: 15px; }
-    .loader-bar-wrap { width: 200px; height: 4px; background: #222; margin-top: 20px; border-radius: 10px; overflow: hidden; }
-    .loader-bar { height: 100%; width: 0%; background: var(--accent); transition: width 0.1s; }
     footer {
       text-align: center;
       padding: 30px 20px;
@@ -956,14 +945,6 @@
 <audio id="bg-music" src="music/background.mp3" loop></audio>
 <button class="music-toggle" id="musicToggle">🎵</button>
 <div id="autoplayHint" class="autoplay-hint"><span>🎵</span> Tap anywhere to enable music</div>
-
-<div id="preloader">
-  <div class="preloader-content">
-    <img src="images/logo1.png" alt="FAZGAME Logo" class="preloader-logo" onerror="this.src='https://placehold.co/100x100/222/ffd84d?text=FAZ';">
-    <div class="logo" style="font-family:'Clash Display'; font-size:32px;"><span>FAZ</span><span style="color:var(--accent)">GAME</span></div>
-    <div class="loader-bar-wrap"><div class="loader-bar" id="loaderBar"></div></div>
-  </div>
-</div>
 
 <div id="imageModal"><img id="modalImg" src="" alt="Preview"></div>
 <div id="detailModal" class="modal">
@@ -1195,7 +1176,7 @@
   </div>
 </section>
 
-<!-- SECTION: Payment (FIXED ICONS) -->
+<!-- SECTION: Payment -->
 <section id="payment" class="reveal">
   <h2 class="section-title" style="text-align:center;">Payment Methods</h2>
   <div class="trust-badges">
@@ -1305,6 +1286,21 @@
     window.open(`https://api.whatsapp.com/send?phone=60163691936&text=${encodeURIComponent("Hi FAZGAME 👋 I'm interested in trading in my games/consoles.")}`, '_blank');
   });
 
+  // COUNTERS (no preloader, so start immediately)
+  function startCounters() {
+    document.querySelectorAll(".stat-item h3").forEach(counter => {
+      const target = parseInt(counter.dataset.target);
+      let current = 0;
+      const update = () => {
+        current += target / 60;
+        if(current < target) { counter.innerText = Math.ceil(current); requestAnimationFrame(update); }
+        else { counter.innerText = target + "+"; }
+      };
+      update();
+    });
+  }
+  startCounters();
+
   // MODAL LOGIC
   const modalElem = document.getElementById('detailModal');
   const modalCloseBtn = document.getElementById('modalCloseBtn');
@@ -1399,31 +1395,6 @@
     const swiperContainer = document.querySelector('.mySwiper');
     swiperContainer.addEventListener('mouseenter', () => swiper.autoplay.stop());
     swiperContainer.addEventListener('mouseleave', () => swiper.autoplay.start());
-  }
-
-  // PRELOADER & COUNTERS
-  window.addEventListener("DOMContentLoaded", () => {
-    let progress = 0;
-    const bar = document.getElementById("loaderBar");
-    const preloader = document.getElementById("preloader");
-    const interval = setInterval(() => {
-      progress += 5;
-      if(bar) bar.style.width = progress + "%";
-      if(progress >= 100) { clearInterval(interval); setTimeout(() => { preloader.classList.add("hide"); startCounters(); }, 400); }
-    }, 40);
-    setTimeout(() => { if (preloader && !preloader.classList.contains('hide')) { preloader.classList.add('hide'); startCounters(); } }, 2000);
-  });
-  function startCounters() {
-    document.querySelectorAll(".stat-item h3").forEach(counter => {
-      const target = parseInt(counter.dataset.target);
-      let current = 0;
-      const update = () => {
-        current += target / 60;
-        if(current < target) { counter.innerText = Math.ceil(current); requestAnimationFrame(update); }
-        else { counter.innerText = target + "+"; }
-      };
-      update();
-    });
   }
 
   // SCROLL CHIPS
