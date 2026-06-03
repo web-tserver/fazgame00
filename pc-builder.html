@@ -107,7 +107,7 @@
       transition: transform 0.2s ease, background 0.2s ease;
     }
 
-    /* ===== PREMIUM 3D SWING LAMP (fixed top-right) ===== */
+    /* ===== PREMIUM 3D SWING LAMP ===== */
     .theme-toggle {
       position: fixed;
       top: 70px;
@@ -123,6 +123,16 @@
         top: 80px;
         right: 30px;
         transform: scale(1);
+      }
+    }
+    /* ----- MOBILE FIX: move lamp to bottom-right so it doesn't block header links ----- */
+    @media (max-width: 680px) {
+      .theme-toggle {
+        top: auto !important;
+        bottom: 100px !important;
+        right: 20px !important;
+        transform: scale(0.7);
+        z-index: 1001;
       }
     }
     .lamp-scene { perspective: 1000px; }
@@ -193,7 +203,7 @@
       100% { transform: rotate(4deg); }
     }
 
-    /* ===== HEADER (no lamp inside) ===== */
+    /* ===== HEADER ===== */
     header {
       position: sticky;
       top: 0;
@@ -270,7 +280,7 @@
       .header-logos { justify-content: center; order: 3; }
     }
 
-    /* ===== PC BUILDER LAYOUT (single column, total below) ===== */
+    /* ===== PC BUILDER LAYOUT ===== */
     .builder-container {
       max-width: 1200px;
       margin: 0 auto;
@@ -382,34 +392,17 @@
       font-size: 13px;
       border-bottom: 1px solid var(--border-color);
     }
-    .selected-list li:last-child {
-      border-bottom: none;
-    }
-    .selected-list .item-name {
-      font-weight: 500;
-      color: var(--text);
-    }
-    .selected-list .item-price {
-      color: var(--accent);
-      font-weight: 600;
-    }
+    .selected-list li:last-child { border-bottom: none; }
+    .selected-list .item-name { font-weight: 500; color: var(--text); }
+    .selected-list .item-price { color: var(--accent); font-weight: 600; }
     .total-amount {
       margin: 20px 0;
       padding-top: 16px;
       border-top: 2px solid var(--accent);
       text-align: center;
     }
-    .total-amount .label {
-      font-size: 16px;
-      font-weight: 600;
-      color: var(--muted);
-    }
-    .total-amount .price {
-      font-size: 42px;
-      font-weight: 800;
-      color: var(--accent);
-      font-family: 'Clash Display', sans-serif;
-    }
+    .total-amount .label { font-size: 16px; font-weight: 600; color: var(--muted); }
+    .total-amount .price { font-size: 42px; font-weight: 800; color: var(--accent); font-family: 'Clash Display', sans-serif; }
     .quote-btn {
       background: var(--accent);
       color: #000;
@@ -428,16 +421,8 @@
       margin-top: 20px;
     }
     .quote-btn i { font-size: 18px; }
-    .quote-btn:hover {
-      background: var(--accent-dark);
-      transform: translateY(-2px);
-    }
-    .empty-selection {
-      color: var(--muted);
-      font-size: 13px;
-      text-align: center;
-      padding: 20px;
-    }
+    .quote-btn:hover { background: var(--accent-dark); transform: translateY(-2px); }
+    .empty-selection { color: var(--muted); font-size: 13px; text-align: center; padding: 20px; }
     .back-to-top {
       position: fixed;
       bottom: 30px;
@@ -481,7 +466,7 @@
 <button class="music-toggle" id="musicToggle">🎵</button>
 <div id="autoplayHint" class="autoplay-hint"><span>🎵</span> Tap anywhere to enable music</div>
 
-<!-- Hanging lamp (fixed top-right) -->
+<!-- Hanging lamp (fixed; on mobile it moves to bottom-right) -->
 <div class="theme-toggle" id="themeToggle">
   <div class="lamp-scene">
     <div class="lamp-wrap" id="lampWrap">
@@ -525,9 +510,7 @@
   <div class="summary-card">
     <div class="selected-items">
       <h4>Your Selection</h4>
-      <div id="selectedItemsList">
-        <div class="empty-selection">No components selected yet</div>
-      </div>
+      <div id="selectedItemsList"><div class="empty-selection">No components selected yet</div></div>
     </div>
     <div class="total-amount">
       <div class="label">Estimated Total</div>
@@ -678,7 +661,7 @@
     window.open(`https://api.whatsapp.com/send?phone=60163691936&text=${encodeURIComponent(msg)}`, '_blank');
   });
 
-  // Music & lamp theme (same as index)
+  // ===== MUSIC & LAMP =====
   const bgMusic = document.getElementById('bg-music');
   const musicToggle = document.getElementById('musicToggle');
   const autoplayHint = document.getElementById('autoplayHint');
@@ -708,7 +691,6 @@
     updateMusicIcon();
   });
 
-  // Theme toggle (lamp)
   const themeToggle = document.getElementById('themeToggle');
   const lampWrap = document.getElementById('lampWrap');
   if (localStorage.getItem('theme') === 'light') document.body.classList.add('light-mode');
@@ -725,7 +707,6 @@
     localStorage.setItem('theme', document.body.classList.contains('light-mode') ? 'light' : 'dark');
   });
 
-  // Back to top
   const backToTop = document.getElementById('backToTop');
   window.addEventListener('scroll', () => backToTop.classList.toggle('visible', window.scrollY > 200));
   backToTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
