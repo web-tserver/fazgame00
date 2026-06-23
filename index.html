@@ -11,19 +11,7 @@
   <link href="https://api.fontshare.com/v2/css?f[]=clash-display@400,700,600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
   <style>
-    /* ===== LIGHTNING BOLT CURSOR ===== */
-    .btn-primary, .chip, .hot-card, .floating-image, .social-link,
-    .back-to-top, .trade-btn, .reserve-btn, .swiper-slide, .faq-question, .modal-close, .music-toggle {
-      cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="%23ffd84d" d="M13 2L3 14h7l-1 8 10-12h-7l1-8z"/></svg>') 12 0, pointer;
-    }
-    @media (pointer: coarse) {
-      .btn-primary, .chip, .hot-card, .floating-image, .social-link,
-      .back-to-top, .trade-btn, .reserve-btn, .swiper-slide, .faq-question, .modal-close, .music-toggle {
-        cursor: pointer;
-      }
-    }
-
-    /* ===== LIGHT/DARK MODE VARIABLES ===== */
+    /* ===== CORE VARIABLES & RESET ===== */
     :root {
       --bg: #0b0b0f;
       --bg-secondary: #111216;
@@ -45,6 +33,9 @@
       --glass-blur: blur(20px);
       --glass-border: 1px solid rgba(255,255,255,0.06);
       --glass-bg: rgba(20, 22, 27, 0.3);
+      /* Premium gaming additions */
+      --neon-cyan: #00f0ff;
+      --neon-magenta: #ff00ff;
     }
     body.light-mode {
       --bg: #f8fafc;
@@ -67,226 +58,84 @@
       --glass-bg: rgba(255, 255, 255, 0.7);
     }
 
-    body { transition: background-color 0.5s ease, color 0.3s ease; overflow-x: hidden; }
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { 
-      font-family: 'Inter', sans-serif; 
-      background: var(--bg); 
-      color: var(--text); 
-      overflow-x: hidden; 
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
       line-height: 1.5;
+      transition: background-color 0.5s ease, color 0.3s ease;
+      /* Subtle dark grid background */
+      background-image:
+        linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+      background-size: 40px 40px;
+    }
+    body.light-mode {
+      background-image: none;
     }
     a { text-decoration: none; color: inherit; }
 
-    /* ===== MUSIC TOGGLE & AUTOPLAY HINT ===== */
+    /* ===== CUSTOM CURSOR ===== */
+    .btn-primary, .chip, .hot-card, .floating-image, .social-link,
+    .back-to-top, .trade-btn, .reserve-btn, .swiper-slide, .faq-question, .modal-close, .music-toggle {
+      cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="%23ffd84d" d="M13 2L3 14h7l-1 8 10-12h-7l1-8z"/></svg>') 12 0, pointer;
+    }
+    @media (pointer: coarse) {
+      .btn-primary, .chip, .hot-card, .floating-image, .social-link,
+      .back-to-top, .trade-btn, .reserve-btn, .swiper-slide, .faq-question, .modal-close, .music-toggle {
+        cursor: pointer;
+      }
+    }
+
+    /* ===== MUSIC TOGGLE ===== */
     .autoplay-hint {
-      position: fixed;
-      bottom: 100px;
-      left: 20px;
-      z-index: 9999;
-      background: var(--glass-bg);
-      backdrop-filter: var(--glass-blur);
-      border: var(--glass-border);
-      border-radius: 40px;
-      padding: 10px 18px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      font-size: 13px;
-      font-weight: 500;
-      color: var(--text);
-      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-      pointer-events: none;
-      opacity: 0;
-      visibility: hidden;
+      position: fixed; bottom: 100px; left: 20px; z-index: 9999;
+      background: var(--glass-bg); backdrop-filter: var(--glass-blur);
+      border: var(--glass-border); border-radius: 40px; padding: 10px 18px;
+      display: flex; align-items: center; gap: 12px; font-size: 13px; font-weight: 500;
+      color: var(--text); box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+      pointer-events: none; opacity: 0; visibility: hidden;
       transition: opacity 0.3s ease, visibility 0.2s;
     }
     .autoplay-hint.show { opacity: 1; visibility: visible; pointer-events: auto; }
     .music-toggle {
-      position: fixed;
-      bottom: 30px;
-      left: 30px;
-      width: 44px;
-      height: 44px;
-      border-radius: 50%;
-      background: var(--glass-bg);
-      backdrop-filter: var(--glass-blur);
-      border: var(--glass-border);
-      color: var(--text);
-      font-size: 20px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      z-index: 998;
-      box-shadow: var(--card-shadow);
-      transition: transform 0.2s ease, background 0.2s ease;
+      position: fixed; bottom: 30px; left: 30px; width: 44px; height: 44px;
+      border-radius: 50%; background: var(--glass-bg); backdrop-filter: var(--glass-blur);
+      border: var(--glass-border); color: var(--text); font-size: 20px;
+      display: flex; align-items: center; justify-content: center; cursor: pointer;
+      z-index: 998; box-shadow: var(--card-shadow); transition: transform 0.2s ease, background 0.2s ease;
     }
 
-    /* ===== COMPACT RGB GAMING LAMP ===== */
-    .lamp-container {
-      position: fixed;
-      top: 70px;
-      right: 15px;
-      z-index: 1001;
-      cursor: pointer;
-      transform: scale(0.55);
-      transform-origin: top right;
-      transition: filter 0.3s ease;
-    }
-    @media (min-width: 768px) {
-      .lamp-container {
-        top: 80px;
-        right: 25px;
-        transform: scale(0.65);
-      }
-    }
-    @media (max-width: 680px) {
-      .lamp-container {
-        top: 100px !important;
-        right: 15px !important;
-        transform: scale(0.5);
-      }
-    }
-    #lamp-switch {
-      display: none;
-    }
-    .room {
-      position: relative;
-      width: 100%;
-      display: flex;
-      justify-content: center;
-    }
-    .wall-glow {
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(circle at 50% 40%, rgba(0, 240, 255, 0.15) 0%, transparent 60%);
-      opacity: 0;
-      transition: opacity 0.3s ease;
-      pointer-events: none;
-    }
-    .lamp-assembly {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      transform-origin: top center;
-      animation: swing 5s ease-in-out infinite alternate;
-      filter: drop-shadow(0px 30px 20px rgba(0,0,0,0.6));
-    }
-    .base {
-      width: 40px;
-      height: 16px;
-      background: #121318;
-      clip-path: polygon(0 0, 100% 0, 80% 100%, 20% 100%);
-      border-bottom: 1px solid #23252d;
-    }
-    .cord {
-      width: 8px;
-      height: 120px;
-      background: linear-gradient(90deg, #111 0%, #222 50%, #000 100%);
-      position: relative;
-    }
-    .cord::after {
-      content: '';
-      position: absolute;
-      top: 0; left: 3px;
-      width: 3px; height: 100%;
-      background: #333;
-      transition: background 0.3s ease;
-    }
-    .shade-container {
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      cursor: pointer;
-      margin-top: -3px;
-    }
-    .shade-top {
-      width: 28px;
-      height: 20px;
-      background: #23252d;
-      clip-path: polygon(20% 0, 80% 0, 100% 100%, 0 100%);
-    }
-    .shade-body {
-      width: 130px;
-      height: 52px;
-      background: linear-gradient(135deg, #121318 0%, #0f111a 100%);
-      clip-path: polygon(30% 0%, 70% 0%, 100% 100%, 0% 100%);
-      position: relative;
-      display: flex;
-      justify-content: center;
-      align-items: flex-end;
-      border-bottom: 2px solid #111;
-    }
-    .shade-body::before, .shade-body::after {
-      content: '';
-      position: absolute;
-      top: 10%;
-      width: 20px;
-      height: 80%;
-      background: #23252d;
-      z-index: -1;
-    }
+    /* ===== RGB LAMP (unchanged) ===== */
+    .lamp-container { position: fixed; top: 70px; right: 15px; z-index: 1001; cursor: pointer; transform: scale(0.55); transform-origin: top right; transition: filter 0.3s ease; }
+    @media (min-width: 768px) { .lamp-container { top: 80px; right: 25px; transform: scale(0.65); } }
+    @media (max-width: 680px) { .lamp-container { top: 100px !important; right: 15px !important; transform: scale(0.5); } }
+    #lamp-switch { display: none; }
+    .room { position: relative; width: 100%; display: flex; justify-content: center; }
+    .wall-glow { position: absolute; inset: 0; background: radial-gradient(circle at 50% 40%, rgba(0, 240, 255, 0.15) 0%, transparent 60%); opacity: 0; transition: opacity 0.3s ease; pointer-events: none; }
+    .lamp-assembly { display: flex; flex-direction: column; align-items: center; transform-origin: top center; animation: swing 5s ease-in-out infinite alternate; filter: drop-shadow(0px 30px 20px rgba(0,0,0,0.6)); }
+    .base { width: 40px; height: 16px; background: #121318; clip-path: polygon(0 0, 100% 0, 80% 100%, 20% 100%); border-bottom: 1px solid #23252d; }
+    .cord { width: 8px; height: 120px; background: linear-gradient(90deg, #111 0%, #222 50%, #000 100%); position: relative; }
+    .cord::after { content: ''; position: absolute; top: 0; left: 3px; width: 3px; height: 100%; background: #333; transition: background 0.3s ease; }
+    .shade-container { position: relative; display: flex; flex-direction: column; align-items: center; cursor: pointer; margin-top: -3px; }
+    .shade-top { width: 28px; height: 20px; background: #23252d; clip-path: polygon(20% 0, 80% 0, 100% 100%, 0 100%); }
+    .shade-body { width: 130px; height: 52px; background: linear-gradient(135deg, #121318 0%, #0f111a 100%); clip-path: polygon(30% 0%, 70% 0%, 100% 100%, 0% 100%); position: relative; display: flex; justify-content: center; align-items: flex-end; border-bottom: 2px solid #111; }
+    .shade-body::before, .shade-body::after { content: ''; position: absolute; top: 10%; width: 20px; height: 80%; background: #23252d; z-index: -1; }
     .shade-body::before { left: 10px; clip-path: polygon(100% 0, 0 100%, 100% 100%); }
     .shade-body::after { right: 10px; clip-path: polygon(0 0, 100% 100%, 0 100%); }
-    .rgb-ring {
-      position: absolute;
-      bottom: -3px;
-      width: 85px;
-      height: 5px;
-      background: #222;
-      border-radius: 8px;
-      transition: all 0.3s ease;
-    }
-    .led-core {
-      width: 50px;
-      height: 10px;
-      background: #111;
-      clip-path: polygon(10% 0, 90% 0, 100% 100%, 0 100%);
-      position: absolute;
-      bottom: -10px;
-      transition: all 0.3s ease;
-    }
-    .hologram-beam {
-      position: absolute;
-      top: 65px;
-      width: 350px;
-      height: 500px;
-      background: linear-gradient(to bottom, rgba(0, 240, 255, 0.3) 0%, rgba(0, 240, 255, 0) 100%);
-      clip-path: polygon(38% 0, 62% 0, 100% 100%, 0 100%);
-      opacity: 0;
-      pointer-events: none;
-      transform-origin: top center;
-      transition: opacity 0.3s ease;
-      mask-image: repeating-linear-gradient(transparent, transparent 2px, black 2px, black 4px);
-      -webkit-mask-image: repeating-linear-gradient(transparent, transparent 2px, black 2px, black 4px);
-    }
-    @keyframes rgb-cycle {
-      0% { filter: hue-rotate(0deg); }
-      100% { filter: hue-rotate(360deg); }
-    }
-    @keyframes swing {
-      0% { transform: rotate(3deg); }
-      100% { transform: rotate(-3deg); }
-    }
-    /* Lamp ON (dark mode) */
+    .rgb-ring { position: absolute; bottom: -3px; width: 85px; height: 5px; background: #222; border-radius: 8px; transition: all 0.3s ease; }
+    .led-core { width: 50px; height: 10px; background: #111; clip-path: polygon(10% 0, 90% 0, 100% 100%, 0 100%); position: absolute; bottom: -10px; transition: all 0.3s ease; }
+    .hologram-beam { position: absolute; top: 65px; width: 350px; height: 500px; background: linear-gradient(to bottom, rgba(0, 240, 255, 0.3) 0%, rgba(0, 240, 255, 0) 100%); clip-path: polygon(38% 0, 62% 0, 100% 100%, 0 100%); opacity: 0; pointer-events: none; transform-origin: top center; transition: opacity 0.3s ease; mask-image: repeating-linear-gradient(transparent, transparent 2px, black 2px, black 4px); -webkit-mask-image: repeating-linear-gradient(transparent, transparent 2px, black 2px, black 4px); }
+    @keyframes rgb-cycle { 0% { filter: hue-rotate(0deg); } 100% { filter: hue-rotate(360deg); } }
+    @keyframes swing { 0% { transform: rotate(3deg); } 100% { transform: rotate(-3deg); } }
     body:not(.light-mode) .wall-glow { opacity: 1; }
-    body:not(.light-mode) .cord::after {
-      background: #00f0ff;
-      box-shadow: 0 0 6px #00f0ff;
-    }
-    body:not(.light-mode) .rgb-ring {
-      background: #00f0ff;
-      box-shadow: 0 0 10px #00f0ff, 0 0 20px #00f0ff;
-    }
-    body:not(.light-mode) .led-core {
-      background: #ffffff;
-      box-shadow: 0 0 12px #00f0ff, 0 0 24px #00f0ff, 0 0 40px #00f0ff;
-    }
+    body:not(.light-mode) .cord::after { background: #00f0ff; box-shadow: 0 0 6px #00f0ff; }
+    body:not(.light-mode) .rgb-ring { background: #00f0ff; box-shadow: 0 0 10px #00f0ff, 0 0 20px #00f0ff; }
+    body:not(.light-mode) .led-core { background: #ffffff; box-shadow: 0 0 12px #00f0ff, 0 0 24px #00f0ff, 0 0 40px #00f0ff; }
     body:not(.light-mode) .hologram-beam { opacity: 1; }
     body:not(.light-mode) .rgb-sync { animation: rgb-cycle 5s linear infinite; }
-    /* Lamp OFF (light mode) */
     body.light-mode .wall-glow { opacity: 0; }
     body.light-mode .cord::after { background: #333; box-shadow: none; }
     body.light-mode .rgb-ring { background: #222; box-shadow: none; }
@@ -294,66 +143,21 @@
     body.light-mode .hologram-beam { opacity: 0; }
     body.light-mode .rgb-sync { animation: none; }
 
-    /* ===== HEADER ===== */
-    header {
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-      background: var(--header-bg);
-      backdrop-filter: var(--glass-blur);
-      border-bottom: var(--glass-border);
-      padding: 12px 16px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.05);
-    }
+    /* ===== HEADER (unchanged) ===== */
+    header { position: sticky; top: 0; z-index: 1000; background: var(--header-bg); backdrop-filter: var(--glass-blur); border-bottom: var(--glass-border); padding: 12px 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); }
     @media (min-width: 768px) { header { padding: 16px 24px; } }
-    .header-inner {
-      max-width: 1400px;
-      margin: 0 auto;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 16px;
-    }
+    .header-inner { max-width: 1400px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
     .header-left { display: flex; align-items: center; gap: 15px; }
     .header-left .logo-img { height: 40px; width: auto; }
-    .header-left .logo-text {
-      font-family: 'Clash Display', sans-serif;
-      font-weight: 700;
-      font-size: 24px;
-      letter-spacing: -0.5px;
-    }
+    .header-left .logo-text { font-family: 'Clash Display', sans-serif; font-weight: 700; font-size: 24px; letter-spacing: -0.5px; }
     .header-left .logo-text span:last-child { color: var(--accent); }
-    .header-nav {
-      display: flex;
-      gap: 12px;
-      background: rgba(0,0,0,0.2);
-      backdrop-filter: blur(4px);
-      padding: 6px 16px;
-      border-radius: 60px;
-      border: var(--glass-border);
-    }
+    .header-nav { display: flex; gap: 12px; background: rgba(0,0,0,0.2); backdrop-filter: blur(4px); padding: 6px 16px; border-radius: 60px; border: var(--glass-border); }
     body.light-mode .header-nav { background: rgba(255,255,255,0.5); }
-    .nav-link {
-      font-weight: 600;
-      font-size: 14px;
-      padding: 8px 14px;
-      border-radius: 40px;
-      transition: 0.2s;
-      color: var(--text);
-      text-decoration: none;
-    }
+    .nav-link { font-weight: 600; font-size: 14px; padding: 8px 14px; border-radius: 40px; transition: 0.2s; color: var(--text); }
     .nav-link:hover { background: var(--accent); color: #000; transform: translateY(-2px); }
-    .header-logos {
-      display: flex;
-      gap: 12px;
-      align-items: center;
-    }
+    .header-logos { display: flex; gap: 12px; align-items: center; }
     @media (min-width: 768px) { .header-logos { gap: 20px; } }
-    .header-logos img {
-      width: 20px;
-      transition: var(--transition);
-    }
+    .header-logos img { width: 20px; transition: var(--transition); }
     body:not(.light-mode) .header-logos img { filter: invert(1); opacity: 0.7; }
     body.light-mode .header-logos img { filter: none; opacity: 0.8; }
     .header-logos img:hover { opacity: 1; transform: translateY(-2px); }
@@ -363,24 +167,11 @@
       .header-logos { order: 3; justify-content: center; }
     }
 
-    /* ===== BANNER, CARDS, ETC. ===== */
-    .banner {
-      position: relative;
-      min-height: auto;
-      padding: 20px 0 40px;
-      display: flex;
-      align-items: center;
-      background: var(--bg);
-      overflow: hidden;
-    }
+    /* ===== BANNER (unchanged) ===== */
+    .banner { position: relative; min-height: auto; padding: 20px 0 40px; display: flex; align-items: center; background: var(--bg); overflow: hidden; }
     @media (min-width: 768px) { .banner { min-height: 700px; padding: 0; } }
     .banner-bg { position: absolute; inset: 0; z-index: 0; }
-    .banner-bg .shape {
-      position: absolute;
-      border-radius: 50%;
-      filter: blur(80px);
-      opacity: 0.4;
-    }
+    .banner-bg .shape { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.4; }
     body.light-mode .banner-bg .shape { opacity: 0.15; }
     .shape-1 { width: 300px; height: 300px; background: #7928ca; top: -50px; left: -50px; animation: float 20s infinite alternate; }
     @media (min-width: 768px) { .shape-1 { width: 400px; height: 400px; top: -100px; left: -100px; } }
@@ -394,72 +185,25 @@
       content: "";
       position: absolute;
       inset: 0;
-      background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJmIj48ZmVUdXJidWxlbmNlIHR5cGU9ImZyYWN0YWxOb2lzZSIgYmFzZUZyZXF1ZW5jeT0iLjc0IiBudW1PY3RhdmVzPSIzIiAvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNmKSIgb3BhY2l0eT0iMC4wNCIgLz48/N2ZnPg==');
+      background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJmIj48ZmVUdXJidWxlbmNlIHR5cGU9ImZyYWN0YWxOb2lzZSIgYmFzZUZyZXF1ZW5jeT0iLjc0IiBudW1PY3RhdmVzPSIzIiAvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNmKSIgb3BhY2l0eT0iMC4wNCIgLz48N2ZnPg==');
       opacity: 0.15;
       pointer-events: none;
       z-index: 1;
     }
-    .banner-container {
-      position: relative;
-      z-index: 2;
-      max-width: 1400px;
-      margin: 0 auto;
-      padding: 20px 16px;
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 20px;
-      align-items: center;
-      width: 100%;
-    }
+    .banner-container { position: relative; z-index: 2; max-width: 1400px; margin: 0 auto; padding: 20px 16px; display: grid; grid-template-columns: 1fr; gap: 20px; align-items: center; width: 100%; }
     .banner-visual { order: -1; }
-    @media (min-width: 768px) {
-      .banner-container { padding: 40px 24px; grid-template-columns: 1fr 1fr; gap: 40px; }
-      .banner-visual { order: 0; }
-    }
-    .banner-content { max-width: 600px; }
-    .hero-title {
-      font-family: 'Clash Display', sans-serif;
-      font-weight: 700;
-      font-size: 40px;
-      line-height: 1.1;
-      margin-bottom: 12px;
-      letter-spacing: -1px;
-      color: var(--text);
-    }
+    @media (min-width: 768px) { .banner-container { padding: 40px 24px; grid-template-columns: 1fr 1fr; gap: 40px; } .banner-visual { order: 0; } }
+    .hero-title { font-family: 'Clash Display', sans-serif; font-weight: 700; font-size: 40px; line-height: 1.1; margin-bottom: 12px; letter-spacing: -1px; color: var(--text); }
     @media (min-width: 768px) { .hero-title { font-size: clamp(48px, 8vw, 72px); margin-bottom: 16px; letter-spacing: -2px; } }
     .hero-title span { color: var(--accent); text-shadow: var(--accent-glow); }
     .hero-desc { font-size: 16px; color: var(--muted); margin-bottom: 24px; max-width: 500px; }
     @media (min-width: 768px) { .hero-desc { font-size: 18px; margin-bottom: 32px; } }
-    .service-chips {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-bottom: 30px;
-    }
+    .service-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 30px; }
     @media (min-width: 768px) { .service-chips { gap: 12px; margin-bottom: 40px; } }
-    .chip {
-      background: var(--glass-bg);
-      backdrop-filter: blur(10px);
-      border: var(--glass-border);
-      border-radius: 60px;
-      font-size: 13px;
-      font-weight: 500;
-      color: var(--text);
-      padding: 10px 18px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-width: 44px;
-      min-height: 44px;
-    }
+    .chip { background: var(--glass-bg); backdrop-filter: blur(10px); border: var(--glass-border); border-radius: 60px; font-size: 13px; font-weight: 500; color: var(--text); padding: 10px 18px; display: inline-flex; align-items: center; justify-content: center; min-width: 44px; min-height: 44px; }
     .chip.primary { background: var(--accent); color: #000; border-color: var(--accent); font-weight: 600; }
     .chip:hover { background: var(--accent); border-color: var(--accent); color: #000; transform: translateY(-2px); box-shadow: var(--accent-glow); }
-    .hero-stats {
-      display: flex;
-      gap: 24px;
-      margin: 30px 0;
-      flex-wrap: wrap;
-    }
+    .hero-stats { display: flex; gap: 24px; margin: 30px 0; flex-wrap: wrap; }
     @media (min-width: 768px) { .hero-stats { gap: 48px; margin: 40px 0; } }
     .stat-item h3 { font-size: 28px; font-weight: 800; font-family: 'Clash Display', sans-serif; color: var(--text); line-height: 1; margin-bottom: 4px; }
     @media (min-width: 768px) { .stat-item h3 { font-size: 36px; } }
@@ -467,391 +211,261 @@
     @media (min-width: 768px) { .stat-item p { font-size: 14px; } }
     .social-row { display: flex; gap: 12px; flex-wrap: wrap; }
     @media (min-width: 768px) { .social-row { gap: 16px; } }
-    .social-link {
-      border-radius: 50%;
-      background: var(--glass-bg);
-      backdrop-filter: blur(10px);
-      border: var(--glass-border);
-      width: 44px;
-      height: 44px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: 0.2s;
-    }
+    .social-link { border-radius: 50%; background: var(--glass-bg); backdrop-filter: blur(10px); border: var(--glass-border); width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; transition: 0.2s; }
     .social-link:hover { background: var(--accent); transform: translateY(-4px); }
-    .social-link img {
-      width: 20px;
-      filter: invert(1);
-      opacity: 0.8;
-      transition: 0.2s;
-    }
+    .social-link img { width: 20px; filter: invert(1); opacity: 0.8; transition: 0.2s; }
     body.light-mode .social-link img { filter: invert(0.2); opacity: 0.9; }
     .social-link:hover img { filter: invert(0); opacity: 1; }
     body.light-mode .social-link:hover img { filter: invert(0); opacity: 1; }
-    .banner-visual {
-      position: relative;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-    .orb {
-      position: absolute;
-      width: 150px;
-      height: 150px;
-      border-radius: 50%;
-      filter: blur(60px);
-      opacity: 0.4;
-      z-index: 1;
-    }
+    .banner-visual { position: relative; display: flex; justify-content: center; align-items: center; }
+    .orb { position: absolute; width: 150px; height: 150px; border-radius: 50%; filter: blur(60px); opacity: 0.4; z-index: 1; }
     @media (min-width: 768px) { .orb { width: 200px; height: 200px; filter: blur(80px); } }
     body.light-mode .orb { opacity: 0.15; }
     .orb-1 { top: 10%; left: 5%; background: #ff4d4d; animation: orbPulse 4s ease-in-out infinite; }
     .orb-2 { bottom: 5%; right: 5%; background: #4d79ff; animation: orbPulse 4s ease-in-out infinite reverse; }
     @keyframes orbPulse { 0%,100% { opacity:0.3; transform:scale(1); } 50% { opacity:0.6; transform:scale(1.2); } }
-    .floating-image {
-      width: 100%;
-      max-width: 400px;
-      filter: drop-shadow(0 0 10px rgba(255,216,77,0.4));
-      animation: levitate 6s ease-in-out infinite, glowPulse 4s ease-in-out infinite;
-      position: relative;
-      z-index: 5;
-    }
+    .floating-image { width: 100%; max-width: 400px; filter: drop-shadow(0 0 10px rgba(255,216,77,0.4)); animation: levitate 6s ease-in-out infinite, glowPulse 4s ease-in-out infinite; position: relative; z-index: 5; }
     @media (min-width: 768px) { .floating-image { max-width: 650px; filter: drop-shadow(0 0 15px rgba(255,216,77,0.5)); } }
     body.light-mode .floating-image { filter: drop-shadow(0 0 10px rgba(234,179,8,0.2)); }
     @keyframes levitate { 0% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-15px) rotate(2deg); } 100% { transform: translateY(0) rotate(0deg); } }
     @keyframes glowPulse { 0%,100% { filter: drop-shadow(0 0 10px rgba(255,216,77,0.4)); } 50% { filter: drop-shadow(0 0 15px rgba(255,216,77,0.6)); } }
-    .sticky-cta {
-      position: sticky;
-      top: 70px;
-      z-index: 900;
-      background: transparent;
-      padding: 12px 0;
-      text-align: center;
-      width: 100%;
-    }
-    .btn-primary {
-      display: block;
-      width: 100%;
-      background: var(--accent);
-      color: #000;
-      border: none;
-      padding: 14px 0;
-      border-radius: 0;
-      font-weight: 700;
-      font-size: 15px;
-      box-shadow: 0 10px 30px -10px rgba(255,216,77,0.3);
-      border: 1px solid rgba(255,216,77,0.3);
-      max-width: none;
-      min-height: 44px;
-    }
+    .sticky-cta { position: sticky; top: 70px; z-index: 900; background: transparent; padding: 12px 0; text-align: center; width: 100%; }
+    .btn-primary { display: block; width: 100%; background: var(--accent); color: #000; border: none; padding: 14px 0; border-radius: 0; font-weight: 700; font-size: 15px; box-shadow: 0 10px 30px -10px rgba(255,216,77,0.3); border: 1px solid rgba(255,216,77,0.3); max-width: none; min-height: 44px; }
     @media (min-width: 768px) { .btn-primary { padding: 14px 0; font-size: 16px; } }
     .btn-primary:hover { background: var(--accent-dark); transform: translateY(-2px); box-shadow: 0 20px 30px -10px rgba(255,216,77,0.5); }
 
-    /* ===== PREORDER CARDS ===== */
+    /* =============================================
+       PREMIUM GAMING CARD REDESIGN – HOT-CARD 2.0
+       ============================================= */
     .hot-grid {
       display: grid;
-      gap: 14px;
-      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
       margin: 0 auto;
       width: 100%;
     }
-    #hot .hot-grid { gap: 20px; }
-    #preorder-console .hot-card .hot-title { font-size: clamp(12px, 4vw, 16px); white-space: normal; }
-    @media (max-width: 768px) {
-      .hot-grid { gap: 10px; }
-      #hot .hot-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
-    }
-    @media (max-width: 480px) {
-      .hot-grid { grid-template-columns: repeat(2, 1fr); }
-      #hot .hot-grid { grid-template-columns: repeat(2, 1fr); }
-    }
-    @media (min-width: 600px) and (max-width: 1199px) {
-      .hot-grid { grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); }
-      #hot .hot-grid { grid-template-columns: repeat(3, minmax(220px, 1fr)); }
+    @media (min-width: 600px) {
+      .hot-grid { grid-template-columns: repeat(3, 1fr); gap: 28px; }
     }
     @media (min-width: 1200px) {
-      #preorder-console .hot-grid { grid-template-columns: repeat(6, minmax(140px, 1fr)); }
-      #hot .hot-grid { grid-template-columns: repeat(3, minmax(240px, 1fr)); }
+      #preorder-console .hot-grid { grid-template-columns: repeat(6, minmax(160px, 1fr)); }
+      #hot .hot-grid { grid-template-columns: repeat(3, minmax(260px, 1fr)); }
     }
+
     .hot-card {
       position: relative;
-      border-radius: 20px;
+      border-radius: 28px;
       overflow: hidden;
-      background: #111;
+      background: rgba(0,0,0,0.75);
+      backdrop-filter: blur(12px);
       aspect-ratio: 4/5;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      transform-style: preserve-3d;
-      perspective: 1000px;
-      will-change: transform;
-      box-shadow: var(--card-shadow);
+      transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.4s ease;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.06);
       cursor: pointer;
+      border: 1px solid transparent;
+      /* Glass morphism base */
+      background: linear-gradient(135deg, rgba(20, 20, 30, 0.5) 0%, rgba(10, 10, 18, 0.8) 100%);
+      backdrop-filter: blur(16px);
     }
-    .hot-card:hover { transform: scale(1.05) translateY(-5px); z-index: 10; }
-    body.light-mode .hot-card:hover { box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
-    .hot-card img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.3s ease; transform: translateZ(20px); }
-    .hot-card .badge { transform: translateZ(30px); font-size: 9px; padding: 4px 8px; }
-    @media (min-width: 768px) { .hot-card .badge { font-size: 10px; padding: 6px 12px; } }
+    body.light-mode .hot-card {
+      background: rgba(255,255,255,0.8);
+      backdrop-filter: blur(16px);
+      box-shadow: 0 15px 35px rgba(0,0,0,0.1), 0 0 0 1px rgba(0,0,0,0.05);
+    }
+
+    /* Rotating RGB border (visible on hover) */
+    .hot-card::before {
+      content: '';
+      position: absolute;
+      inset: -2px;
+      border-radius: 30px;
+      background: conic-gradient(from var(--rgb-border-angle, 0deg),
+        #ff0080, #7928ca, #00f0ff, #ffd84d, #ff0080);
+      z-index: -1;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+      animation: rotateRGB 4s linear infinite paused;
+    }
+    .hot-card:hover::before {
+      opacity: 1;
+      animation-play-state: running;
+    }
+    @keyframes rotateRGB {
+      to { --rgb-border-angle: 360deg; }
+    }
+    /* Fallback for browsers that don't support @property */
+    @supports not (background: conic-gradient(from 0deg, red, blue)) {
+      .hot-card::before { display: none; }
+    }
+    @property --rgb-border-angle {
+      syntax: '<angle>';
+      initial-value: 0deg;
+      inherits: false;
+    }
+
+    /* Scanline overlay */
+    .hot-card::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        rgba(0,0,0,0.15) 0px,
+        rgba(0,0,0,0.15) 2px,
+        transparent 2px,
+        transparent 4px
+      );
+      pointer-events: none;
+      z-index: 3;
+      opacity: 0.3;
+      transition: opacity 0.3s;
+    }
+    .hot-card:hover::after {
+      opacity: 0.15;
+    }
+
+    .hot-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.5s ease, filter 0.5s;
+      filter: brightness(0.9) saturate(1.1);
+    }
+    .hot-card:hover img {
+      transform: scale(1.1) rotate(1deg);
+      filter: brightness(1.1) saturate(1.3);
+    }
+
+    /* Holographic shimmer */
+    .shimmer {
+      position: absolute;
+      top: 0;
+      left: -75%;
+      width: 50%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+      transform: skewX(-25deg);
+      z-index: 2;
+      pointer-events: none;
+      opacity: 0;
+      transition: left 0.7s ease, opacity 0.3s;
+    }
+    .hot-card:hover .shimmer {
+      opacity: 1;
+      left: 125%;
+    }
+
     .hot-card-content {
       position: absolute;
       bottom: 0;
       left: 0;
       right: 0;
-      padding: 12px;
-      background: linear-gradient(transparent, rgba(0,0,0,0.5) 60%);
+      padding: 20px;
       z-index: 4;
-      transform: translateZ(20px);
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
       pointer-events: none;
+      background: linear-gradient(transparent, rgba(0,0,0,0.7) 60%);
     }
-    .hot-title { font-weight: 800; font-size: 16px; margin-bottom: 6px; color: #fff; text-shadow: 0 2px 8px rgba(0,0,0,0.8); }
-    .hot-desc { font-size: 12px; color: rgba(255,255,255,0.9); text-shadow: 0 1px 4px rgba(0,0,0,0.7); font-weight: 600; }
-    .hot-price-row .hot-desc { color: var(--accent); font-weight: 800; }
+    .hot-title {
+      font-family: 'Clash Display', 'Inter', sans-serif;
+      font-weight: 700;
+      font-size: 20px;
+      line-height: 1.2;
+      background: linear-gradient(to right, #fff, #ffd84d);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 4px;
+    }
+    body.light-mode .hot-title {
+      background: linear-gradient(to right, #0f172a, #eab308);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hot-desc, .hot-price-row .hot-desc {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--accent);
+      text-shadow: 0 0 10px var(--accent);
+      letter-spacing: 0.3px;
+    }
+
     .badge {
       position: absolute;
-      top: 10px;
-      z-index: 6;
-      font-size: 9px;
+      top: 16px;
+      z-index: 5;
+      font-size: 10px;
       font-weight: 800;
-      padding: 4px 8px;
+      padding: 6px 14px;
       border-radius: 30px;
+      backdrop-filter: blur(16px);
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      box-shadow: 0 0 12px currentColor;
     }
-    @media (min-width: 600px) { .badge { top: 15px; font-size: 10px; padding: 6px 12px; } }
-    .badge-left { left: 10px; background: rgba(255,255,255,0.9); color: #000; }
-    @media (min-width: 600px) { .badge-left { left: 15px; } }
-    .badge-right { right: 10px; background: var(--accent); color: #000; }
-    @media (min-width: 600px) { .badge-right { right: 15px; } }
+    .badge-left {
+      left: 16px;
+      background: rgba(0,0,0,0.8);
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+    .badge-right {
+      right: 16px;
+      background: var(--accent);
+      color: #000;
+      border: 1px solid var(--accent);
+      box-shadow: 0 0 15px var(--accent);
+    }
+    .hot-card:hover .badge {
+      transform: scale(1.08);
+      box-shadow: 0 0 20px currentColor;
+    }
 
-    /* ===== TRADE SECTION ===== */
-    .trade-section {
-      position: relative;
-      background-image: url('images/trade.webp');
-      background-size: cover;
-      background-position: center;
-      border-radius: 24px;
-      padding: 40px 24px;
-      margin: 40px auto;
-      max-width: 1000px;
-      text-align: center;
-      border: var(--glass-border);
-      box-shadow: var(--card-shadow);
-    }
-    .trade-section::before {
-      content: "";
-      position: absolute;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(0,0,0,0.4);
-      backdrop-filter: blur(4px);
-      border-radius: 24px;
-      z-index: 0;
-    }
+    /* ===== TRADE SECTION (unchanged) ===== */
+    .trade-section { position: relative; background-image: url('images/trade.webp'); background-size: cover; background-position: center; border-radius: 24px; padding: 40px 24px; margin: 40px auto; max-width: 1000px; text-align: center; border: var(--glass-border); box-shadow: var(--card-shadow); }
+    .trade-section::before { content: ""; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.4); backdrop-filter: blur(4px); border-radius: 24px; z-index: 0; }
     body.light-mode .trade-section::before { background: rgba(0,0,0,0.3); }
     .trade-section > * { position: relative; z-index: 1; }
     .trade-title { font-size: 32px; font-weight: 800; margin-bottom: 16px; color: #fff; }
     .trade-desc { font-size: 18px; color: rgba(255,255,255,0.9); margin-bottom: 24px; }
-    .trade-btn {
-      background: var(--accent);
-      color: #000;
-      border: none;
-      padding: 14px 36px;
-      border-radius: 60px;
-      font-weight: 700;
-      font-size: 18px;
-      cursor: pointer;
-      transition: var(--transition);
-      display: inline-block;
-      min-width: 44px;
-      min-height: 44px;
-    }
+    .trade-btn { background: var(--accent); color: #000; border: none; padding: 14px 36px; border-radius: 60px; font-weight: 700; font-size: 18px; cursor: pointer; transition: var(--transition); display: inline-block; min-width: 44px; min-height: 44px; }
     .trade-btn:hover { background: var(--accent-dark); transform: translateY(-2px); box-shadow: 0 20px 30px -10px rgba(255,216,77,0.5); }
 
-    /* ===== GALLERY ===== */
-    #gallery {
-      padding: 40px 16px !important;
-      max-width: 1200px;
-      margin: 0 auto;
-      overflow: hidden;
-    }
+    /* ===== GALLERY, PAYMENT, FAQ (unchanged) ===== */
+    #gallery { padding: 40px 16px !important; max-width: 1200px; margin: 0 auto; overflow: hidden; }
     #gallery .swiper { width: 100%; padding: 30px 0 60px; overflow: visible; }
-    #gallery .swiper-slide {
-      width: clamp(180px, 35vw, 280px);
-      height: auto;
-      aspect-ratio: 3/4;
-      border-radius: 20px;
-      overflow: hidden;
-      box-shadow: 0 10px 30px -5px rgba(0,0,0,0.3);
-      border: 2px solid rgba(255,255,255,0.1);
-      transition: border-color 0.3s ease;
-      cursor: pointer;
-    }
+    #gallery .swiper-slide { width: clamp(180px, 35vw, 280px); height: auto; aspect-ratio: 3/4; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 30px -5px rgba(0,0,0,0.3); border: 2px solid rgba(255,255,255,0.1); transition: border-color 0.3s ease; cursor: pointer; }
     #gallery .swiper-slide-active { border-color: var(--accent); }
     #gallery .swiper-slide img { display: block; width: 100%; height: 100%; object-fit: cover; }
-    #gallery .slide-caption {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      padding: 16px;
-      background: linear-gradient(transparent, rgba(0,0,0,0.7));
-      color: white;
-      font-weight: 600;
-      font-size: 14px;
-      text-align: center;
-      backdrop-filter: blur(2px);
-      transform: translateY(100%);
-      transition: transform 0.3s ease;
-    }
+    #gallery .slide-caption { position: absolute; bottom: 0; left: 0; right: 0; padding: 16px; background: linear-gradient(transparent, rgba(0,0,0,0.7)); color: white; font-weight: 600; font-size: 14px; text-align: center; backdrop-filter: blur(2px); transform: translateY(100%); transition: transform 0.3s ease; }
     #gallery .swiper-slide-active .slide-caption { transform: translateY(0); }
     #gallery .swiper-pagination-bullet { background: var(--text); opacity: 0.5; transition: all 0.3s ease; }
     #gallery .swiper-pagination-bullet-active { background: var(--accent); opacity: 1; transform: scale(1.2); }
-    #gallery .swiper-button-next, #gallery .swiper-button-prev {
-      color: var(--accent);
-      background: rgba(0,0,0,0.3);
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      backdrop-filter: blur(4px);
-    }
-    #gallery .swiper-button-next:after, #gallery .swiper-button-prev:after { font-size: 16px; }
-    @media (max-width: 768px) {
-      #gallery .swiper-slide { width: clamp(150px, 40vw, 220px); }
-      #gallery .swiper-button-next, #gallery .swiper-button-prev { display: none; }
-    }
-
-    /* ===== PAYMENT SECTION ===== */
-    #payment {
-      padding: 40px 16px;
-      max-width: 1200px;
-      margin: 0 auto;
-      text-align: center;
-    }
-    .trust-badges {
-      display: flex;
-      justify-content: center;
-      gap: 24px;
-      margin: 30px 0 20px;
-      flex-wrap: wrap;
-    }
-    .trust-badge {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 14px;
-      color: var(--text);
-    }
-    .trust-badge .icon { font-size: 1.2em; line-height: 1; }
-    .payment-icons {
-      display: flex;
-      justify-content: center;
-      gap: 16px;
-      flex-wrap: wrap;
-      margin-top: 20px;
-    }
-    .payment-item {
-      background: var(--glass-bg);
-      backdrop-filter: blur(8px);
-      padding: 8px 20px;
-      border-radius: 40px;
-      border: var(--glass-border);
-      font-size: 14px;
-      font-weight: 500;
-      color: var(--text);
-    }
-
-    /* ===== FAQ SECTION ===== */
-    #faq {
-      padding: 40px 16px;
-      max-width: 800px;
-      margin: 0 auto;
-    }
-    .faq-item {
-      border-bottom: 1px solid var(--border-color);
-      padding: 16px 0;
-    }
-    .faq-question {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-weight: 700;
-      font-size: 16px;
-      cursor: pointer;
-      padding: 8px 0;
-      color: var(--text);
-    }
-    .faq-answer {
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height 0.3s ease;
-      color: var(--muted);
-      font-size: 14px;
-      line-height: 1.6;
-    }
+    #payment { padding: 40px 16px; max-width: 1200px; margin: 0 auto; text-align: center; }
+    .trust-badges { display: flex; justify-content: center; gap: 24px; margin: 30px 0 20px; flex-wrap: wrap; }
+    .trust-badge { display: flex; align-items: center; gap: 8px; font-size: 14px; color: var(--text); }
+    .payment-icons { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; margin-top: 20px; }
+    .payment-item { background: var(--glass-bg); backdrop-filter: blur(8px); padding: 8px 20px; border-radius: 40px; border: var(--glass-border); font-size: 14px; font-weight: 500; color: var(--text); }
+    #faq { padding: 40px 16px; max-width: 800px; margin: 0 auto; }
+    .faq-item { border-bottom: 1px solid var(--border-color); padding: 16px 0; }
+    .faq-question { display: flex; justify-content: space-between; align-items: center; font-weight: 700; font-size: 16px; cursor: pointer; padding: 8px 0; color: var(--text); }
+    .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; color: var(--muted); font-size: 14px; line-height: 1.6; }
     .faq-answer.open { max-height: 200px; padding-top: 12px; }
     .faq-icon { transition: transform 0.3s ease; display: inline-block; }
     .faq-icon.open { transform: rotate(45deg); }
 
-    /* ===== MODAL & LIGHTBOX ===== */
-    .modal {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0,0,0,0.4);
-      backdrop-filter: blur(16px);
-      z-index: 10002;
-      align-items: center;
-      justify-content: center;
-      overflow-y: auto;
-      padding: 16px;
-    }
+    /* ===== MODAL / LIGHTBOX (unchanged) ===== */
+    .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); backdrop-filter: blur(16px); z-index: 10002; align-items: center; justify-content: center; overflow-y: auto; padding: 16px; }
     .modal.show { display: flex; }
-    .modal-content {
-      background: var(--card-bg);
-      backdrop-filter: var(--glass-blur);
-      border: var(--glass-border);
-      border-radius: 28px;
-      width: 100%;
-      max-width: 500px;
-      padding: 20px;
-      position: relative;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-      max-height: calc(100vh - 32px);
-      overflow-y: auto;
-    }
-    .modal-close {
-      position: absolute;
-      top: 12px;
-      right: 12px;
-      width: 44px;
-      height: 44px;
-      font-size: 28px;
-      line-height: 1;
-      background: rgba(0,0,0,0.3);
-      backdrop-filter: blur(8px);
-      border: var(--glass-border);
-      border-radius: 50%;
-      color: var(--text);
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
+    .modal-content { background: var(--card-bg); backdrop-filter: var(--glass-blur); border: var(--glass-border); border-radius: 28px; width: 100%; max-width: 500px; padding: 20px; position: relative; box-shadow: 0 20px 40px rgba(0,0,0,0.2); max-height: calc(100vh - 32px); overflow-y: auto; }
+    .modal-close { position: absolute; top: 12px; right: 12px; width: 44px; height: 44px; font-size: 28px; line-height: 1; background: rgba(0,0,0,0.3); backdrop-filter: blur(8px); border: var(--glass-border); border-radius: 50%; color: var(--text); cursor: pointer; display: flex; align-items: center; justify-content: center; }
     .modal-close:hover { background: #ff3b30; }
-    .modal-img {
-      width: 100%;
-      aspect-ratio: 1 / 1;
-      object-fit: cover;
-      border-radius: 20px;
-      margin-bottom: 16px;
-      cursor: pointer;
-      max-height: 35vh;
-    }
-    @media (min-width: 768px) {
-      .modal-content { max-width: 800px; display: flex; flex-direction: row; align-items: flex-start; gap: 24px; padding: 24px; max-height: 90vh; }
-      .modal-content .modal-img { width: 45%; max-width: 350px; flex-shrink: 0; max-height: none; }
-      .modal-content .modal-details { flex: 1; display: flex; flex-direction: column; min-height: 0; overflow-y: auto; }
-    }
+    .modal-img { width: 100%; aspect-ratio: 1 / 1; object-fit: cover; border-radius: 20px; margin-bottom: 16px; cursor: pointer; max-height: 35vh; }
+    @media (min-width: 768px) { .modal-content { max-width: 800px; display: flex; flex-direction: row; align-items: flex-start; gap: 24px; padding: 24px; max-height: 90vh; } .modal-content .modal-img { width: 45%; max-width: 350px; flex-shrink: 0; max-height: none; } .modal-content .modal-details { flex: 1; display: flex; flex-direction: column; min-height: 0; overflow-y: auto; } }
     .modal-title { font-size: 22px; font-weight: 800; margin: 8px 0 6px; color: var(--text); }
     .modal-price { font-size: 20px; font-weight: 700; margin-bottom: 8px; color: var(--accent); }
     .modal-subtitle { font-size: 13px; color: var(--muted); margin-bottom: 16px; border-bottom: 1px solid var(--border-color); padding-bottom: 10px; }
@@ -859,135 +473,25 @@
     .modal-specs ul { list-style: none; padding-left: 0; }
     .modal-specs li { margin-bottom: 8px; font-size: 13px; color: var(--muted); display: flex; align-items: baseline; gap: 8px; }
     .modal-specs li strong { color: var(--text); min-width: 90px; font-weight: 600; }
-    .warranty-badge {
-      margin-top: 12px;
-      background: rgba(255,216,77,0.15);
-      padding: 8px 12px;
-      border-radius: 40px;
-      font-size: 12px;
-      text-align: center;
-      color: var(--accent);
-      font-weight: 600;
-    }
-    .modal-reserve {
-      background: var(--accent);
-      color: #000;
-      border: none;
-      padding: 12px 24px;
-      border-radius: 60px;
-      font-weight: 700;
-      font-size: 16px;
-      cursor: pointer;
-      width: 100%;
-      transition: transform 0.2s, background 0.2s;
-      margin-top: 16px;
-    }
+    .warranty-badge { margin-top: 12px; background: rgba(255,216,77,0.15); padding: 8px 12px; border-radius: 40px; font-size: 12px; text-align: center; color: var(--accent); font-weight: 600; }
+    .modal-reserve { background: var(--accent); color: #000; border: none; padding: 12px 24px; border-radius: 60px; font-weight: 700; font-size: 16px; cursor: pointer; width: 100%; transition: transform 0.2s, background 0.2s; margin-top: 16px; }
     .modal-reserve:hover { background: var(--accent-dark); transform: translateY(-2px); }
-    .modal-lightbox {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0,0,0,0.6);
-      backdrop-filter: blur(20px);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 10003;
-      visibility: hidden;
-      opacity: 0;
-      transition: visibility 0.2s, opacity 0.25s ease;
-      cursor: pointer;
-    }
+    .modal-lightbox { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); backdrop-filter: blur(20px); display: flex; align-items: center; justify-content: center; z-index: 10003; visibility: hidden; opacity: 0; transition: visibility 0.2s, opacity 0.25s ease; cursor: pointer; }
     .modal-lightbox.active { visibility: visible; opacity: 1; }
     .modal-lightbox-img { max-width: 90vw; max-height: 90vh; object-fit: contain; border-radius: 24px; box-shadow: 0 30px 45px rgba(0,0,0,0.4); border: 3px solid rgba(255,255,255,0.1); }
-    .modal-lightbox-close {
-      position: absolute;
-      top: 24px;
-      right: 32px;
-      background: rgba(0,0,0,0.4);
-      backdrop-filter: blur(12px);
-      border: none;
-      color: white;
-      font-size: 2rem;
-      width: 48px;
-      height: 48px;
-      border-radius: 50%;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
+    .modal-lightbox-close { position: absolute; top: 24px; right: 32px; background: rgba(0,0,0,0.4); backdrop-filter: blur(12px); border: none; color: white; font-size: 2rem; width: 48px; height: 48px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; }
     .modal-lightbox-close:hover { background: #ff3b30; }
-    #imageModal {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.7);
-      backdrop-filter: blur(12px);
-      z-index: 10001;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      cursor: zoom-out;
-    }
+    #imageModal { position: fixed; inset: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(12px); z-index: 10001; display: none; align-items: center; justify-content: center; cursor: zoom-out; }
     #imageModal.show { display: flex; }
     #modalImg { max-width: 90vw; max-height: 90vh; border-radius: 20px; }
-    .back-to-top {
-      position: fixed;
-      bottom: 30px;
-      right: 30px;
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      background: var(--accent);
-      color: #000;
-      border: none;
-      font-size: 24px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      opacity: 0;
-      visibility: hidden;
-      transition: opacity 0.3s ease, visibility 0.3s ease;
-      z-index: 999;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-    }
+    .back-to-top { position: fixed; bottom: 30px; right: 30px; width: 50px; height: 50px; border-radius: 50%; background: var(--accent); color: #000; border: none; font-size: 24px; display: flex; align-items: center; justify-content: center; cursor: pointer; opacity: 0; visibility: hidden; transition: opacity 0.3s ease, visibility 0.3s ease; z-index: 999; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
     .back-to-top.visible { opacity: 1; visibility: visible; }
-    .reveal {
-      opacity: 0;
-      transform: translateY(30px);
-      transition: opacity 0.8s ease, transform 0.8s ease;
-    }
+    .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.8s ease, transform 0.8s ease; }
     .reveal.active { opacity: 1; transform: translateY(0); }
-    footer {
-      text-align: center;
-      padding: 30px 20px;
-      color: var(--muted);
-      font-size: 13px;
-      border-top: 1px solid var(--border-color);
-    }
-    section:not(#gallery):not(#payment):not(#faq) {
-      padding: 40px 16px;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-    .section-title {
-      font-size: 28px;
-      font-weight: 800;
-      font-family: 'Clash Display', sans-serif;
-      margin-bottom: 8px;
-      color: var(--text);
-    }
-    .section-subtitle {
-      font-size: 13px;
-      color: var(--accent);
-      margin-bottom: 20px;
-      opacity: 0.9;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-    }
+    footer { text-align: center; padding: 30px 20px; color: var(--muted); font-size: 13px; border-top: 1px solid var(--border-color); }
+    section:not(#gallery):not(#payment):not(#faq) { padding: 40px 16px; max-width: 1200px; margin: 0 auto; }
+    .section-title { font-size: 28px; font-weight: 800; font-family: 'Clash Display', sans-serif; margin-bottom: 8px; color: var(--text); }
+    .section-subtitle { font-size: 13px; color: var(--accent); margin-bottom: 20px; opacity: 0.9; letter-spacing: 1px; text-transform: uppercase; }
     @media (max-width: 380px) {
       .hero-title { font-size: 32px; }
       .stat-item h3 { font-size: 24px; }
@@ -999,14 +503,14 @@
 <body>
 
 <audio id="bg-music" src="music/background.mp3" loop></audio>
-<button class="music-toggle" id="musicToggle">🎵</button>
+<button class="music-toggle" id="musicToggle" aria-label="Toggle music">🎵</button>
 <div id="autoplayHint" class="autoplay-hint"><span>🎵</span> Tap anywhere to enable music</div>
 
 <div id="imageModal"><img id="modalImg" src="" alt="Preview"></div>
 <div id="detailModal" class="modal">
   <div class="modal-content">
-    <button class="modal-close" id="modalCloseBtn">&times;</button>
-    <img id="modalProductImg" class="modal-img" src="" alt="Product">
+    <button class="modal-close" id="modalCloseBtn" aria-label="Close modal">&times;</button>
+    <img id="modalProductImg" class="modal-img" src="" alt="Product preview">
     <div class="modal-details">
       <h2 id="modalProductTitle" class="modal-title"></h2>
       <div id="modalProductPrice" class="modal-price"></div>
@@ -1017,7 +521,7 @@
   </div>
 </div>
 <div id="modalLightbox" class="modal-lightbox">
-  <button class="modal-lightbox-close" id="modalLightboxClose">&times;</button>
+  <button class="modal-lightbox-close" id="modalLightboxClose" aria-label="Close lightbox">&times;</button>
   <img id="modalLightboxImg" class="modal-lightbox-img" alt="Zoomed view">
 </div>
 
@@ -1111,27 +615,44 @@
   <h2 class="section-title">Preorder PC Builds</h2>
   <div class="section-subtitle">Custom Gaming PCs • Built On Demand</div>
   <div class="hot-grid">
-    <div class="hot-card" data-product='{"name":"BLACK SETUP Custom LCD (RTX 3050)","price":"RM2,500","image":"images/pc1000.webp","specs":["Processor: AMD Ryzen 5 5500","Graphics: RTX 3050 6GB","RAM: 16GB DDR4","Storage: 512GB NVMe SSD","PSU: 500W Bronze 80+","Case: Black Custom LCD","Warranty: up to 4 Years"]}'>
+    <!-- CARD: BLACK SETUP RTX 3050 -->
+    <div class="hot-card" data-product='{"name":"BLACK SETUP Custom LCD (RTX 3050)","price":"RM2,600","image":"images/pc1000.webp","specs":["Processor: AMD Ryzen 5 5500","Graphics: RTX 3050 6GB","RAM: 16GB DDR4","Storage: 512GB NVMe SSD","PSU: 500W Bronze 80+","Case: Black Custom LCD","Warranty: up to 4 Years"]}'>
+      <div class="shimmer"></div>
       <span class="badge badge-right">PRE-ORDER</span>
-      <img src="images/pc1000.webp" alt="BLACK SETUP RTX 3050" loading="lazy" onerror="this.src='https://placehold.co/400x500/222/ffd84d?text=PC+RM2500';">
-      <div class="hot-card-content"><div class="hot-title">BLACK SETUP Custom LCD</div><div class="hot-desc">RM2,500</div></div>
+      <img src="images/pc1000.webp" alt="BLACK SETUP RTX 3050" loading="lazy" onerror="this.src='https://placehold.co/400x500/222/ffd84d?text=PC+RM2600';">
+      <div class="hot-card-content"><div class="hot-title">BLACK SETUP Custom LCD</div><div class="hot-desc">RM2,600</div></div>
     </div>
-    <div class="hot-card" data-product='{"name":"WHITE SETUP Custom LCD (RTX 5060)","price":"RM3,500","image":"images/pc2000.webp","specs":["Processor: AMD Ryzen 5 5600","Graphics: RTX 5060 8GB","RAM: 16GB DDR4","Storage: 512GB NVMe SSD","PSU: 600W Bronze 80+","Case: White Custom LCD","Warranty: up to 4 Years"]}'>
+    <!-- CARD: WHITE SETUP RTX 5060 -->
+    <div class="hot-card" data-product='{"name":"WHITE SETUP Custom LCD (RTX 5060)","price":"RM3,600","image":"images/pc2000.webp","specs":["Processor: AMD Ryzen 5 5600","Graphics: RTX 5060 8GB","RAM: 16GB DDR4","Storage: 512GB NVMe SSD","PSU: 600W 80+","Case: White Custom LCD","Warranty: up to 4 Years"]}'>
+      <div class="shimmer"></div>
       <span class="badge badge-right">PRE-ORDER</span>
-      <img src="images/pc2000.webp" alt="WHITE SETUP RTX 5060" loading="lazy" onerror="this.src='https://placehold.co/400x500/222/ffd84d?text=PC+RM3500';">
-      <div class="hot-card-content"><div class="hot-title">WHITE SETUP Custom LCD</div><div class="hot-desc">RM3,500</div></div>
+      <img src="images/pc2000.webp" alt="WHITE SETUP RTX 5060" loading="lazy" onerror="this.src='https://placehold.co/400x500/222/ffd84d?text=PC+RM3600';">
+      <div class="hot-card-content"><div class="hot-title">WHITE SETUP Custom LCD</div><div class="hot-desc">RM3,600</div></div>
     </div>
-    <div class="hot-card" data-product='{"name":"BLACK SETUP Custom LCD (RTX 5060 Ti)","price":"RM4,000","image":"images/pc3000.webp","specs":["Processor: AMD Ryzen 5 5600","Graphics: RTX 5060 Ti 8GB","RAM: 16GB DDR4","Storage: 512GB NVMe SSD","PSU: 650W Bronze 80+","Case: Black Custom LCD","Warranty: up to 4 Years"]}'>
+    <!-- CARD: RTX 3070 Ti WHITE -->
+    <div class="hot-card" data-product='{"name":"RTX 3070 Ti-WHITE SETUP","price":"RM3,600","image":"images/techware_vx_prism.webp","specs":["Processor: AMD Ryzen 5 5600","Graphics: RTX 3070 Ti 8GB","RAM: 16GB DDR4","Storage: 512GB NVMe SSD","PSU: 600W Bronze 80+","Case: Techware VX Prism","Warranty: up to 4 Years"]}'>
+      <div class="shimmer"></div>
       <span class="badge badge-right">PRE-ORDER</span>
-      <img src="images/pc3000.webp" alt="BLACK SETUP RTX 5060 Ti" loading="lazy" onerror="this.src='https://placehold.co/400x500/222/ffd84d?text=PC+RM4000';">
-      <div class="hot-card-content"><div class="hot-title">BLACK SETUP Custom LCD</div><div class="hot-desc">RM4,000</div></div>
+      <img src="images/techware_vx_prism.webp" alt="Techware VX Prism RTX 3070 Ti" loading="lazy" onerror="this.src='https://placehold.co/400x500/222/ffd84d?text=PC+RM3600';">
+      <div class="hot-card-content"><div class="hot-title">RTX 3070 Ti-WHITE SETUP</div><div class="hot-desc">RM3,600</div></div>
     </div>
-    <div class="hot-card" data-product='{"name":"Coolman Spectra LCD (RTX 5060 Ti / R5 5600X)","price":"RM4,500","image":"images/pc4500.webp","specs":["Processor: AMD Ryzen 5 5600X","Graphics: RTX 5060 Ti 8GB","RAM: 16GB DDR4","Storage: 512GB NVMe SSD","PSU: 650W Bronze 80+","Case: Coolman Spectra","Warranty: up to 4 Years"]}'>
+    <!-- CARD: BLACK SETUP RTX 5060 Ti -->
+    <div class="hot-card" data-product='{"name":"BLACK SETUP Custom LCD (RTX 5060 Ti)","price":"RM4,100","image":"images/pc3000.webp","specs":["Processor: AMD Ryzen 5 5600","Graphics: RTX 5060 Ti 8GB","RAM: 16GB DDR4","Storage: 512GB NVMe SSD","PSU: 650W Bronze 80+","Case: Black Custom LCD","Warranty: up to 4 Years"]}'>
+      <div class="shimmer"></div>
       <span class="badge badge-right">PRE-ORDER</span>
-      <img src="images/pc4500.webp" alt="Coolman Spectra RTX 5060 Ti" loading="lazy" onerror="this.src='https://placehold.co/400x500/222/ffd84d?text=PC+RM4500';">
-      <div class="hot-card-content"><div class="hot-title">Coolman Spectra LCD</div><div class="hot-desc">RM4,500</div></div>
+      <img src="images/pc3000.webp" alt="BLACK SETUP RTX 5060 Ti" loading="lazy" onerror="this.src='https://placehold.co/400x500/222/ffd84d?text=PC+RM4100';">
+      <div class="hot-card-content"><div class="hot-title">BLACK SETUP Custom LCD</div><div class="hot-desc">RM4,100</div></div>
     </div>
+    <!-- CARD: Coolman Spectra -->
+    <div class="hot-card" data-product='{"name":"Coolman Spectra LCD (RTX 5060 Ti / R5 5600X)","price":"RM4,600","image":"images/pc4500.webp","specs":["Processor: AMD Ryzen 5 5600X","Graphics: RTX 5060 Ti 8GB","RAM: 16GB DDR4","Storage: 512GB NVMe SSD","PSU: 650W Bronze 80+","Case: Coolman Spectra","Warranty: up to 4 Years"]}'>
+      <div class="shimmer"></div>
+      <span class="badge badge-right">PRE-ORDER</span>
+      <img src="images/pc4500.webp" alt="Coolman Spectra RTX 5060 Ti" loading="lazy" onerror="this.src='https://placehold.co/400x500/222/ffd84d?text=PC+RM4600';">
+      <div class="hot-card-content"><div class="hot-title">Coolman Spectra LCD</div><div class="hot-desc">RM4,600</div></div>
+    </div>
+    <!-- CARD: Custom PC -->
     <div class="hot-card" data-product='{"name":"Custom PC","price":"Custom Price","image":"images/custompc.webp","specs":["Build your dream rig","Choose CPU, GPU, RAM, Storage","Free assembly & testing","RGB lighting optional","Warranty: up to 4 Years","Personalized cable management"]}'>
+      <div class="shimmer"></div>
       <span class="badge badge-right">PRE-ORDER</span>
       <img src="images/custompc.webp" alt="Custom PC" loading="lazy" onerror="this.src='https://placehold.co/400x500/222/ffd84d?text=Custom+PC';">
       <div class="hot-card-content"><div class="hot-title">Custom PC</div><div class="hot-desc">Free Setup</div></div>
@@ -1143,67 +664,93 @@
   <h2 class="section-title">Preorder Consoles</h2>
   <div class="section-subtitle">Used Units • Reserve Before Stock Arrival</div>
   <div class="hot-grid">
+    <!-- PS5 Pro Digital -->
     <div class="hot-card" data-product='{"name":"PS5 Pro Digital","price":"RM2750","image":"images/ps5-pro.webp","specs":["Condition: Used","Storage: 2TB SSD","Includes: DualSense Controller","Wi-Fi 6, 4K Gaming","Backwards Compatible","Warranty: 14 Days"]}'>
+      <div class="shimmer"></div>
       <span class="badge badge-left">USED</span> <span class="badge badge-right">PRE-ORDER</span>
       <img src="images/ps5-pro.webp" alt="PS5 Pro" loading="lazy" onerror="this.src='https://placehold.co/400x500/222/ffd84d?text=PS5+Pro';">
       <div class="hot-card-content"><div class="hot-title">PS5 Pro Digital</div><div class="hot-price-row"><span class="hot-desc">RM2750</span></div></div>
     </div>
+    <!-- PS4 Slim 500GB -->
     <div class="hot-card" data-product='{"name":"PS4 Slim 500GB","price":"RM550","image":"images/ps4-slim.webp","specs":["Condition: Used","Storage: 500GB HDD","Includes: DualShock 4","HDMI Cable","Warranty: 14 Days"]}'>
+      <div class="shimmer"></div>
       <span class="badge badge-left">USED</span> <span class="badge badge-right">PRE-ORDER</span>
       <img src="images/ps4-slim.webp" alt="PS4 Slim" loading="lazy" onerror="this.src='https://placehold.co/400x500/222/ffd84d?text=PS4+Slim';">
       <div class="hot-card-content"><div class="hot-title">PS4 Slim 500GB</div><div class="hot-price-row"><span class="hot-desc">RM550</span></div></div>
     </div>
+    <!-- PS4 Pro 1TB -->
     <div class="hot-card" data-product='{"name":"PS4 Pro 1TB","price":"RM650","image":"images/ps4-pro.webp","specs":["Condition: Used","Storage: 1TB HDD","4K Gaming","Includes: DualShock 4","Warranty: 14 Days"]}'>
+      <div class="shimmer"></div>
       <span class="badge badge-left">USED</span> <span class="badge badge-right">PRE-ORDER</span>
       <img src="images/ps4-pro.webp" alt="PS4 Pro" loading="lazy" onerror="this.src='https://placehold.co/400x500/222/ffd84d?text=PS4+Pro';">
       <div class="hot-card-content"><div class="hot-title">PS4 Pro 1TB</div><div class="hot-price-row"><span class="hot-desc">RM650</span></div></div>
     </div>
+    <!-- PS5 Fat Disc -->
     <div class="hot-card" data-product='{"name":"PS5 Fat Disc","price":"RM1500","image":"images/ps5-fat.webp","specs":["Condition: Used (Like New)","Storage: 825GB SSD","Version: Disc Edition (4K UHD)","Includes: DualSense Controller","Warranty: 14 Days (Return & Testing)"]}'>
+      <div class="shimmer"></div>
       <span class="badge badge-left">USED</span> <span class="badge badge-right">PRE-ORDER</span>
       <img src="images/ps5-fat.webp" alt="PS5 Fat" loading="lazy" onerror="this.src='https://placehold.co/400x500/222/ffd84d?text=PS5+Fat';">
       <div class="hot-card-content"><div class="hot-title">PS5 Fat Disc</div><div class="hot-price-row"><span class="hot-desc">RM1500</span></div></div>
     </div>
+    <!-- PS5 Slim Disc -->
     <div class="hot-card" data-product='{"name":"PS5 Slim Disc","price":"RM1700","image":"images/ps5-slim.webp","specs":["Condition: Used","Storage: 1TB SSD","Slim Design","Disc Version","Warranty: 14 Days"]}'>
+      <div class="shimmer"></div>
       <span class="badge badge-left">USED</span> <span class="badge badge-right">PRE-ORDER</span>
       <img src="images/ps5-slim.webp" alt="PS5 Slim" loading="lazy" onerror="this.src='https://placehold.co/400x500/222/ffd84d?text=PS5+Slim';">
       <div class="hot-card-content"><div class="hot-title">PS5 Slim Disc</div><div class="hot-price-row"><span class="hot-desc">RM1700</span></div></div>
     </div>
+    <!-- Switch Lite -->
     <div class="hot-card" data-product='{"name":"Switch Lite","price":"RM400","image":"images/switch-lite.webp","specs":["Condition: Used","Handheld Only","Battery: 3-7 hours","Includes: Charger","Warranty: 14 Days"]}'>
+      <div class="shimmer"></div>
       <span class="badge badge-left">USED</span> <span class="badge badge-right">PRE-ORDER</span>
       <img src="images/switch-lite.webp" alt="Switch Lite" loading="lazy" onerror="this.src='https://placehold.co/400x500/222/ffd84d?text=Switch+Lite';">
       <div class="hot-card-content"><div class="hot-title">Switch Lite</div><div class="hot-price-row"><span class="hot-desc">RM400</span></div></div>
     </div>
+    <!-- Switch OLED White -->
     <div class="hot-card" data-product='{"name":"Switch OLED White","price":"RM750","image":"images/switch-oled-white.webp","specs":["Condition: Used","7-inch OLED Screen","64GB Storage","Includes: Joy-Cons","Dock Included","Warranty: 14 Days"]}'>
+      <div class="shimmer"></div>
       <span class="badge badge-left">USED</span> <span class="badge badge-right">PRE-ORDER</span>
       <img src="images/switch-oled-white.webp" alt="Switch OLED White" loading="lazy" onerror="this.src='https://placehold.co/400x500/222/ffd84d?text=OLED+White';">
       <div class="hot-card-content"><div class="hot-title">Switch OLED White</div><div class="hot-price-row"><span class="hot-desc">RM750</span></div></div>
     </div>
+    <!-- Switch OLED Neon -->
     <div class="hot-card" data-product='{"name":"Switch OLED Neon","price":"RM750","image":"images/switch-oled-neon.webp","specs":["Condition: Used","7-inch OLED Screen","64GB Storage","Neon Joy-Cons","Dock Included","Warranty: 14 Days"]}'>
+      <div class="shimmer"></div>
       <span class="badge badge-left">USED</span> <span class="badge badge-right">PRE-ORDER</span>
       <img src="images/switch-oled-neon.webp" alt="Switch OLED Neon" loading="lazy" onerror="this.src='https://placehold.co/400x500/222/ffd84d?text=OLED+Neon';">
       <div class="hot-card-content"><div class="hot-title">Switch OLED Neon</div><div class="hot-price-row"><span class="hot-desc">RM750</span></div></div>
     </div>
+    <!-- Switch OLED Zelda -->
     <div class="hot-card" data-product='{"name":"Switch OLED Zelda","price":"RM850","image":"images/switch-zelda.webp","specs":["Condition: Used","Limited Edition","7-inch OLED Screen","Zelda Themed Dock","Warranty: 14 Days"]}'>
+      <div class="shimmer"></div>
       <span class="badge badge-left">USED</span> <span class="badge badge-right">PRE-ORDER</span>
       <img src="images/switch-zelda.webp" alt="Switch OLED Zelda" loading="lazy" onerror="this.src='https://placehold.co/400x500/222/ffd84d?text=Zelda+OLED';">
       <div class="hot-card-content"><div class="hot-title">Switch OLED Zelda</div><div class="hot-price-row"><span class="hot-desc">RM850</span></div></div>
     </div>
+    <!-- Switch OLED Splatoon -->
     <div class="hot-card" data-product='{"name":"Switch OLED Splatoon","price":"RM850","image":"images/switch-splatoon.webp","specs":["Condition: Used","Limited Edition","Splatoon Themed","OLED Screen","Warranty: 14 Days"]}'>
+      <div class="shimmer"></div>
       <span class="badge badge-left">USED</span> <span class="badge badge-right">PRE-ORDER</span>
       <img src="images/switch-splatoon.webp" alt="Switch OLED Splatoon" loading="lazy" onerror="this.src='https://placehold.co/400x500/222/ffd84d?text=Splatoon+OLED';">
       <div class="hot-card-content"><div class="hot-title">Switch OLED Splatoon</div><div class="hot-price-row"><span class="hot-desc">RM850</span></div></div>
     </div>
+    <!-- Switch OLED Mario -->
     <div class="hot-card" data-product='{"name":"Switch OLED Mario","price":"RM850","image":"images/switch-mario.webp","specs":["Condition: Used","Mario Red Edition","OLED Screen","Includes: Carry Case","Warranty: 14 Days"]}'>
+      <div class="shimmer"></div>
       <span class="badge badge-left">USED</span> <span class="badge badge-right">PRE-ORDER</span>
       <img src="images/switch-mario.webp" alt="Switch OLED Mario" loading="lazy" onerror="this.src='https://placehold.co/400x500/222/ffd84d?text=Mario+OLED';">
       <div class="hot-card-content"><div class="hot-title">Switch OLED Mario</div><div class="hot-price-row"><span class="hot-desc">RM850</span></div></div>
     </div>
+    <!-- Switch OLED Pokemon -->
     <div class="hot-card" data-product='{"name":"Switch OLED Pokemon","price":"RM850","image":"images/switch-pokemon.webp","specs":["Condition: Used","Pokemon Edition","OLED Screen","Special Backplate","Warranty: 14 Days"]}'>
+      <div class="shimmer"></div>
       <span class="badge badge-left">USED</span> <span class="badge badge-right">PRE-ORDER</span>
       <img src="images/switch-pokemon.webp" alt="Switch OLED Pokemon" loading="lazy" onerror="this.src='https://placehold.co/400x500/222/ffd84d?text=Pokemon+OLED';">
       <div class="hot-card-content"><div class="hot-title">Switch OLED Pokemon</div><div class="hot-price-row"><span class="hot-desc">RM850</span></div></div>
     </div>
+    <!-- Switch 2 Edition -->
     <div class="hot-card" data-product='{"name":"Switch 2 Edition","price":"RM1700","image":"images/switch-2.webp","specs":["Condition: Used","Next-gen Switch","Enhanced Performance","Larger Screen","Backwards Compatible","Warranty: 14 Days"]}'>
+      <div class="shimmer"></div>
       <span class="badge badge-left">USED</span> <span class="badge badge-right">PRE-ORDER</span>
       <img src="images/switch-2.webp" alt="Switch 2" loading="lazy" onerror="this.src='https://placehold.co/400x500/222/ffd84d?text=Switch+2';">
       <div class="hot-card-content"><div class="hot-title">Switch 2 Edition</div><div class="hot-price-row"><span class="hot-desc">RM1700</span></div></div>
@@ -1281,7 +828,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 <script>
-  // MUSIC AUTOPLAY
+  // ===== MUSIC AUTOPLAY =====
   const bgMusic = document.getElementById('bg-music');
   const musicToggle = document.getElementById('musicToggle');
   const autoplayHint = document.getElementById('autoplayHint');
@@ -1311,24 +858,24 @@
     updateMusicIcon();
   });
 
-  // BACK TO TOP
+  // ===== BACK TO TOP =====
   const backToTop = document.getElementById('backToTop');
   window.addEventListener('scroll', () => backToTop.classList.toggle('visible', window.scrollY > 200));
   backToTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
 
-  // REVEAL ON SCROLL
+  // ===== REVEAL ON SCROLL =====
   const revealElements = document.querySelectorAll('.reveal');
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('active'); observer.unobserve(entry.target); } });
   }, { threshold: 0.1 });
   revealElements.forEach(el => observer.observe(el));
 
-  // TRADE BUTTON
+  // ===== TRADE BUTTON =====
   document.getElementById('tradeBtn').addEventListener('click', () => {
     window.open(`https://api.whatsapp.com/send?phone=60163691936&text=${encodeURIComponent("Hi FAZGAME 👋 I'm interested in trading in my games/consoles.")}`, '_blank');
   });
 
-  // COUNTERS
+  // ===== COUNTERS =====
   function startCounters() {
     document.querySelectorAll(".stat-item h3").forEach(counter => {
       const target = parseInt(counter.dataset.target);
@@ -1343,7 +890,7 @@
   }
   startCounters();
 
-  // MODAL LOGIC
+  // ===== MODAL LOGIC =====
   const modalElem = document.getElementById('detailModal');
   const modalCloseBtn = document.getElementById('modalCloseBtn');
   const modalImgElem = document.getElementById('modalProductImg');
@@ -1407,7 +954,7 @@
     });
   });
 
-  // GALLERY LIGHTBOX
+  // ===== GALLERY LIGHTBOX =====
   document.addEventListener('click', function(e) {
     const gallerySlide = e.target.closest('.swiper-slide');
     if (gallerySlide && !e.target.closest('.swiper-button-next') && !e.target.closest('.swiper-button-prev')) {
@@ -1425,7 +972,7 @@
   globalLightbox.onclick = () => { globalLightbox.classList.remove('show'); document.body.style.overflow = 'auto'; };
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && globalLightbox.classList.contains('show')) { globalLightbox.classList.remove('show'); document.body.style.overflow = 'auto'; } });
 
-  // SWIPER GALLERY
+  // ===== SWIPER GALLERY =====
   if (document.querySelector('.mySwiper')) {
     const swiper = new Swiper(".mySwiper", {
       effect: "coverflow", grabCursor: true, centeredSlides: true, slidesPerView: "auto",
@@ -1439,7 +986,7 @@
     swiperContainer.addEventListener('mouseleave', () => swiper.autoplay.start());
   }
 
-  // SCROLL CHIPS
+  // ===== SCROLL CHIPS =====
   document.querySelectorAll('[data-scroll]').forEach(chip => {
     chip.onclick = () => {
       const target = document.getElementById(chip.dataset.scroll);
@@ -1447,13 +994,13 @@
     };
   });
 
-  // WHATSAPP BUTTON
+  // ===== WHATSAPP CTA =====
   document.getElementById("cta-whatsapp").addEventListener("click", function(e){
     e.preventDefault();
     window.open("https://api.whatsapp.com/send?phone=60163691936&text=" + encodeURIComponent("Hi FAZGAME 👋 I would like to inquire about your products."), '_blank');
   });
 
-  // NEW LAMP THEME TOGGLE
+  // ===== LAMP THEME TOGGLE =====
   const lampCheckbox = document.getElementById('lamp-switch');
   const lampContainer = document.getElementById('lampContainer');
   if (localStorage.getItem('theme') === 'light') {
@@ -1472,7 +1019,7 @@
     }
   });
 
-  // FAQ TOGGLE
+  // ===== FAQ TOGGLE =====
   document.querySelectorAll('.faq-question').forEach(question => {
     question.addEventListener('click', function() {
       const expanded = this.getAttribute('aria-expanded') === 'true' ? false : true;
