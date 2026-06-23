@@ -35,6 +35,8 @@
       --glass-bg: rgba(20, 22, 27, 0.3);
       --neon-cyan: #00f0ff;
       --neon-magenta: #ff00ff;
+      --card-dark-bg: linear-gradient(135deg, rgba(20,20,30,0.7) 0%, rgba(10,10,18,0.9) 100%);
+      --card-light-bg: linear-gradient(135deg, rgba(20,20,30,0.9) 0%, rgba(10,10,18,0.95) 100%);
     }
     body.light-mode {
       --bg: #f8fafc;
@@ -90,7 +92,7 @@
     .autoplay-hint.show { opacity: 1; visibility: visible; pointer-events: auto; }
     .music-toggle { position: fixed; bottom: 30px; left: 30px; width: 44px; height: 44px; border-radius: 50%; background: var(--glass-bg); backdrop-filter: var(--glass-blur); border: var(--glass-border); color: var(--text); font-size: 20px; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 998; box-shadow: var(--card-shadow); transition: transform 0.2s ease, background 0.2s ease; }
 
-    /* ===== RGB LAMP (unchanged) ===== */
+    /* ===== RGB LAMP ===== */
     .lamp-container { position: fixed; top: 70px; right: 15px; z-index: 1001; cursor: pointer; transform: scale(0.55); transform-origin: top right; transition: filter 0.3s ease; }
     @media (min-width: 768px) { .lamp-container { top: 80px; right: 25px; transform: scale(0.65); } }
     @media (max-width: 680px) { .lamp-container { top: 100px !important; right: 15px !important; transform: scale(0.5); } }
@@ -125,7 +127,7 @@
     body.light-mode .hologram-beam { opacity: 0; }
     body.light-mode .rgb-sync { animation: none; }
 
-    /* ===== HEADER (unchanged) ===== */
+    /* ===== HEADER ===== */
     header { position: sticky; top: 0; z-index: 1000; background: var(--header-bg); backdrop-filter: var(--glass-blur); border-bottom: var(--glass-border); padding: 12px 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); }
     @media (min-width: 768px) { header { padding: 16px 24px; } }
     .header-inner { max-width: 1400px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
@@ -149,7 +151,7 @@
       .header-logos { order: 3; justify-content: center; }
     }
 
-    /* ===== BANNER (unchanged) ===== */
+    /* ===== BANNER ===== */
     .banner { position: relative; min-height: auto; padding: 20px 0 40px; display: flex; align-items: center; background: var(--bg); overflow: hidden; }
     @media (min-width: 768px) { .banner { min-height: 700px; padding: 0; } }
     .banner-bg { position: absolute; inset: 0; z-index: 0; }
@@ -210,6 +212,7 @@
 
     /* =============================================
        PREMIUM GAMING CARD REDESIGN (NO 3D TILT)
+       Cards stay dark in both modes for white text
        ============================================= */
     .hot-grid {
       display: grid;
@@ -235,13 +238,12 @@
       box-shadow: 0 15px 35px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.06);
       cursor: pointer;
       border: 1px solid transparent;
-      background: linear-gradient(135deg, rgba(20, 20, 30, 0.5) 0%, rgba(10, 10, 18, 0.8) 100%);
+      background: var(--card-dark-bg);
       backdrop-filter: blur(16px);
     }
     body.light-mode .hot-card {
-      background: rgba(255,255,255,0.8);
-      backdrop-filter: blur(16px);
-      box-shadow: 0 15px 35px rgba(0,0,0,0.1), 0 0 0 1px rgba(0,0,0,0.05);
+      background: var(--card-light-bg);
+      box-shadow: 0 15px 35px rgba(0,0,0,0.2), 0 0 0 1px rgba(0,0,0,0.1);
     }
 
     .hot-card:hover {
@@ -250,26 +252,22 @@
       border-color: var(--accent);
     }
     body.light-mode .hot-card:hover {
-      box-shadow: 0 20px 40px rgba(0,0,0,0.15), 0 0 0 2px var(--accent);
+      box-shadow: 0 20px 40px rgba(234,179,8,0.2), 0 0 0 2px var(--accent);
     }
 
-    /* Rotating RGB border (visible on hover) */
+    /* Rotating RGB border */
     .hot-card::before {
       content: '';
       position: absolute;
       inset: -2px;
       border-radius: 30px;
-      background: conic-gradient(from var(--rgb-border-angle, 0deg),
-        #ff0080, #7928ca, #00f0ff, #ffd84d, #ff0080);
+      background: conic-gradient(from var(--rgb-border-angle, 0deg), #ff0080, #7928ca, #00f0ff, #ffd84d, #ff0080);
       z-index: -1;
       opacity: 0;
       transition: opacity 0.5s ease;
       animation: rotateRGB 4s linear infinite paused;
     }
-    .hot-card:hover::before {
-      opacity: 1;
-      animation-play-state: running;
-    }
+    .hot-card:hover::before { opacity: 1; animation-play-state: running; }
     @keyframes rotateRGB { to { --rgb-border-angle: 360deg; } }
     @supports not (background: conic-gradient(from 0deg, red, blue)) { .hot-card::before { display: none; } }
     @property --rgb-border-angle { syntax: '<angle>'; initial-value: 0deg; inherits: false; }
@@ -279,13 +277,7 @@
       content: '';
       position: absolute;
       inset: 0;
-      background: repeating-linear-gradient(
-        0deg,
-        rgba(0,0,0,0.15) 0px,
-        rgba(0,0,0,0.15) 2px,
-        transparent 2px,
-        transparent 4px
-      );
+      background: repeating-linear-gradient(0deg, rgba(0,0,0,0.15) 0px, rgba(0,0,0,0.15) 2px, transparent 2px, transparent 4px);
       pointer-events: none;
       z-index: 3;
       opacity: 0.3;
@@ -306,132 +298,74 @@
       filter: brightness(1.1) saturate(1.3);
     }
 
-    /* Holographic shimmer */
+    /* Shimmer */
     .shimmer {
-      position: absolute;
-      top: 0;
-      left: -75%;
-      width: 50%;
-      height: 100%;
+      position: absolute; top: 0; left: -75%; width: 50%; height: 100%;
       background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
-      transform: skewX(-25deg);
-      z-index: 2;
-      pointer-events: none;
-      opacity: 0;
-      transition: left 0.7s ease, opacity 0.3s;
+      transform: skewX(-25deg); z-index: 2; pointer-events: none;
+      opacity: 0; transition: left 0.7s ease, opacity 0.3s;
     }
-    .hot-card:hover .shimmer {
-      opacity: 1;
-      left: 125%;
-    }
+    .hot-card:hover .shimmer { opacity: 1; left: 125%; }
 
-    /* Glare effect (static, no cursor tracking) */
+    /* Glare (static) */
     .glare {
-      position: absolute;
-      inset: 0;
-      z-index: 4;
-      pointer-events: none;
+      position: absolute; inset: 0; z-index: 4; pointer-events: none;
       background: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.25) 0%, transparent 60%);
-      opacity: 0;
-      transition: opacity 0.3s ease;
-      mix-blend-mode: overlay;
+      opacity: 0; transition: opacity 0.3s ease; mix-blend-mode: overlay;
     }
     .hot-card:hover .glare { opacity: 1; }
 
     .hot-card-content {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      padding: 20px;
-      z-index: 4;
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
+      position: absolute; bottom: 0; left: 0; right: 0; padding: 20px;
+      z-index: 4; display: flex; flex-direction: column; gap: 6px;
       pointer-events: none;
       background: linear-gradient(transparent, rgba(0,0,0,0.7) 60%);
     }
 
     .hot-title {
       font-family: 'Clash Display', 'Inter', sans-serif;
-      font-weight: 700;
-      font-size: 20px;
-      line-height: 1.2;
+      font-weight: 700; font-size: 20px; line-height: 1.2;
       background: linear-gradient(to right, #fff, #ffd84d);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      margin-bottom: 4px;
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text; margin-bottom: 4px;
     }
-    /* Light mode title fix: solid dark text */
+    /* Light mode title – now white */
     body.light-mode .hot-title {
       background: none;
-      -webkit-text-fill-color: #0f172a;
-      color: #0f172a;
+      -webkit-text-fill-color: #ffffff;
+      color: #ffffff;
     }
     .hot-desc, .hot-price-row .hot-desc {
-      font-size: 15px;
-      font-weight: 700;
-      color: var(--accent);
-      text-shadow: 0 0 10px var(--accent);
-      letter-spacing: 0.3px;
+      font-size: 15px; font-weight: 700; color: var(--accent);
+      text-shadow: 0 0 10px var(--accent); letter-spacing: 0.3px;
     }
 
-    /* ===== BADGES ===== */
+    /* Badges */
     .badge {
-      position: absolute;
-      top: 16px;
-      z-index: 5;
-      font-size: 10px;
-      font-weight: 800;
-      padding: 6px 14px;
-      border-radius: 30px;
-      backdrop-filter: blur(16px);
-      letter-spacing: 0.8px;
-      text-transform: uppercase;
-      box-shadow: 0 0 12px currentColor;
+      position: absolute; top: 16px; z-index: 5; font-size: 10px; font-weight: 800;
+      padding: 6px 14px; border-radius: 30px; backdrop-filter: blur(16px);
+      letter-spacing: 0.8px; text-transform: uppercase; box-shadow: 0 0 12px currentColor;
       white-space: nowrap;
     }
     .badge-left {
-      left: 16px;
-      background: rgba(0,0,0,0.8);
-      color: #fff;
+      left: 16px; background: rgba(0,0,0,0.8); color: #fff;
       border: 1px solid rgba(255,255,255,0.2);
     }
     .badge-right {
-      right: 16px;
-      background: var(--accent);
-      color: #000;
-      border: 1px solid var(--accent);
-      box-shadow: 0 0 15px var(--accent);
+      right: 16px; background: var(--accent); color: #000;
+      border: 1px solid var(--accent); box-shadow: 0 0 15px var(--accent);
     }
-    .hot-card:hover .badge {
-      transform: scale(1.08);
-      box-shadow: 0 0 20px currentColor;
-    }
+    .hot-card:hover .badge { transform: scale(1.08); box-shadow: 0 0 20px currentColor; }
 
-    /* ===== RESPONSIVE BADGE FIX (small cards) ===== */
+    /* Responsive badge fix */
     @media (max-width: 480px) {
-      .badge {
-        font-size: 8px;
-        padding: 4px 10px;
-        top: 10px;
-      }
-      .badge-left {
-        left: 10px;
-        top: auto;
-        bottom: 10px;   /* USED badge moves to bottom-left */
-      }
-      .badge-right {
-        right: 10px;
-        top: 10px;      /* PRE-ORDER stays top-right */
-      }
-      .hot-card:hover .badge {
-        transform: scale(1.05);
-      }
+      .badge { font-size: 8px; padding: 4px 10px; top: 10px; }
+      .badge-left { left: 10px; top: auto; bottom: 10px; }
+      .badge-right { right: 10px; top: 10px; }
+      .hot-card:hover .badge { transform: scale(1.05); }
     }
 
-    /* ===== TRADE SECTION (unchanged) ===== */
+    /* ===== TRADE SECTION ===== */
     .trade-section { position: relative; background-image: url('images/trade.webp'); background-size: cover; background-position: center; border-radius: 24px; padding: 40px 24px; margin: 40px auto; max-width: 1000px; text-align: center; border: var(--glass-border); box-shadow: var(--card-shadow); }
     .trade-section::before { content: ""; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.4); backdrop-filter: blur(4px); border-radius: 24px; z-index: 0; }
     body.light-mode .trade-section::before { background: rgba(0,0,0,0.3); }
@@ -441,7 +375,7 @@
     .trade-btn { background: var(--accent); color: #000; border: none; padding: 14px 36px; border-radius: 60px; font-weight: 700; font-size: 18px; cursor: pointer; transition: var(--transition); display: inline-block; min-width: 44px; min-height: 44px; }
     .trade-btn:hover { background: var(--accent-dark); transform: translateY(-2px); box-shadow: 0 20px 30px -10px rgba(255,216,77,0.5); }
 
-    /* ===== GALLERY, PAYMENT, FAQ (unchanged) ===== */
+    /* ===== GALLERY, PAYMENT, FAQ ===== */
     #gallery { padding: 40px 16px !important; max-width: 1200px; margin: 0 auto; overflow: hidden; }
     #gallery .swiper { width: 100%; padding: 30px 0 60px; overflow: visible; }
     #gallery .swiper-slide { width: clamp(180px, 35vw, 280px); height: auto; aspect-ratio: 3/4; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 30px -5px rgba(0,0,0,0.3); border: 2px solid rgba(255,255,255,0.1); transition: border-color 0.3s ease; cursor: pointer; }
@@ -464,7 +398,7 @@
     .faq-icon { transition: transform 0.3s ease; display: inline-block; }
     .faq-icon.open { transform: rotate(45deg); }
 
-    /* ===== MODAL / LIGHTBOX (unchanged) ===== */
+    /* ===== MODAL / LIGHTBOX ===== */
     .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); backdrop-filter: blur(16px); z-index: 10002; align-items: center; justify-content: center; overflow-y: auto; padding: 16px; }
     .modal.show { display: flex; }
     .modal-content { background: var(--card-bg); backdrop-filter: var(--glass-blur); border: var(--glass-border); border-radius: 28px; width: 100%; max-width: 500px; padding: 20px; position: relative; box-shadow: 0 20px 40px rgba(0,0,0,0.2); max-height: calc(100vh - 32px); overflow-y: auto; }
@@ -507,6 +441,7 @@
   </style>
 </head>
 <body>
+
 <audio id="bg-music" src="music/background.mp3" loop></audio>
 <button class="music-toggle" id="musicToggle" aria-label="Toggle music">🎵</button>
 <div id="autoplayHint" class="autoplay-hint"><span>🎵</span> Tap anywhere to enable music</div>
